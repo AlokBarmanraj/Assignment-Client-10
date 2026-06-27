@@ -5,6 +5,9 @@ import { Button, Input, Modal, TextField, Surface } from "@heroui/react";
 
 import { FaPlus, FaCalendarAlt } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
+import { toast } from "react-toastify";
+import { createSchedule } from "@/lib/actions/schedule";
+import { redirect } from "next/navigation";
 
 const statuses = ["Available", "Booked", "Off Day"];
 
@@ -26,7 +29,7 @@ export default function AddScheduleModal() {
   const [duration, setDuration] = useState("");
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const schedule = {
@@ -37,7 +40,13 @@ export default function AddScheduleModal() {
       duration,
     };
 
-    console.log(schedule);
+    // console.log(schedule);
+    const res = await createSchedule(schedule)
+    if (res.insertedId){
+      toast.success("Create Schedule Successfully!");
+      e.target.reset();
+      redirect("/dashboard/doctor/manageSchedule");
+    }
   };
 
   const handleSelect = (value) => {
