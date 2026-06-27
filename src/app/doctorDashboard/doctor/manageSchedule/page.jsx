@@ -2,8 +2,10 @@
 
 import ScheduleTable from "@/components/dashboard/schedule/ScheduleTable";
 import AddScheduleModal from "@/components/dashboard/schedule/AddScheduleModal";
+import { useState } from "react";
 
 export default function ManageSchedulePage() {
+  const [refresh, setRefresh] = useState(false);
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -16,11 +18,11 @@ export default function ManageSchedulePage() {
           </p>
         </div>
 
-        <AddScheduleModal />
+        <AddScheduleModal onSuccess={() => setRefresh((prev) => !prev)} />
       </div>
 
       {/* Table */}
-      <ScheduleTable />
+      <ScheduleTable refresh={refresh} setRefresh={setRefresh} />
     </div>
   );
 }

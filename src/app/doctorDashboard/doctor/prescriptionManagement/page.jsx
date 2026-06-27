@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Card, Button, Input } from "@heroui/react";
 
 import { FaPlus, FaEdit } from "react-icons/fa";
+import UpdatePrescription from "@/components/prescription/UpdatePrescription";
 
 export default function PrescriptionManagementPage() {
   const [form, setForm] = useState({

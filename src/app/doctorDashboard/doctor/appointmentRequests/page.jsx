@@ -34,7 +34,8 @@ export default function AppointmentRequestsPage() {
     console.log("Completed:", id);
 
     // 👉 Navigate to prescription page
-    router.push(`/dashboard/doctor/prescriptions/${id}`);
+    // router.push(`/dashboard/doctor/prescriptionManagement/${id}`);
+    router.push("/dashboard/doctor/prescriptionManagement");
   };
 
   return (
@@ -53,7 +54,7 @@ export default function AppointmentRequestsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
 
-            <thead className="bg-gray-100">
+            <thead>
               <tr>
                 <th className="p-3 text-left">Patient</th>
                 <th className="p-3 text-left">Contact</th>

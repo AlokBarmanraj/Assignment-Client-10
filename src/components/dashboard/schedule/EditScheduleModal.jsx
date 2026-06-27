@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Button, Input, Modal, TextField, Surface } from "@heroui/react";
 
-import { FaPlus, FaCalendarAlt, FaEdit } from "react-icons/fa";
-import { IoMdAddCircle } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
+import { updateSchedule } from "@/lib/actions/schedule";
+import { toast } from "react-toastify";
 
 const statuses = ["Available", "Booked", "Off Day"];
 
@@ -18,18 +19,18 @@ const days = [
   "Friday",
 ];
 
-export default function AddScheduleModal() {
-  const [day, setDay] = useState("");
-  const [status, setStatus] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [duration, setDuration] = useState("");
+export default function EditScheduleModal({ schedule,onSuccess, }) {
   const [open, setOpen] = useState(false);
+  const [day, setDay] = useState(schedule?.day || "");
+  const [status, setStatus] = useState(schedule?.status || "");
+  const [startTime, setStartTime] = useState(schedule?.startTime || "");
+  const [endTime, setEndTime] = useState(schedule?.endTime || "");
+  const [duration, setDuration] = useState(schedule?.duration || "");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const schedule = {
+    const updateData = {
       day,
       status,
       startTime,
@@ -37,18 +38,23 @@ export default function AddScheduleModal() {
       duration,
     };
 
-    console.log(schedule);
-  };
+    const res = await updateSchedule(schedule._id, updateData);
 
+    if (res.modifiedCount > 0) {
+      toast.success("Schedule Updated Successfully");
+      onSuccess();
+    } else {
+      toast.error("Update Failed");
+    }
+  };
   const handleSelect = (value) => {
     setStatus(value);
     setOpen(false);
   };
-
   return (
     <Modal>
       <Button variant="outline" className={"border-none"}>
-      <FaEdit/>
+        <FaEdit />
       </Button>
 
       <Modal.Backdrop>

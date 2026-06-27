@@ -1,11 +1,26 @@
 "use client";
 
+import { deleteSchedule } from "@/lib/actions/schedule";
 import { AlertDialog, Button } from "@heroui/react";
 
 import React from "react";
 import { FaTrash } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-const DeleteScheduleModal = () => {
+const DeleteScheduleModal = ({ schedule, onSuccess }) => {
+  const handleDelete = async () => {
+    const res = await deleteSchedule(schedule._id);
+
+    if (res.deletedCount > 0) {
+      toast.success("Schedule Deleted Successfully");
+
+      if (onSuccess) {
+        onSuccess();
+      }
+    } else {
+      toast.error("Delete Failed");
+    }
+  };
   return (
     <AlertDialog>
       <Button variant="outline" className={"border-none"}>
@@ -23,15 +38,15 @@ const DeleteScheduleModal = () => {
             </AlertDialog.Header>
             <AlertDialog.Body>
               <p>
-                This will permanently delete and
-                all of its data. This action cannot be undone.
+                This will permanently delete and all of its data. This action
+                cannot be undone.
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
               <Button slot="close" variant="tertiary">
                 Cancel
               </Button>
-              <Button slot="close" variant="danger">
+              <Button onClick={handleDelete} slot="close" variant="danger">
                 Conform Remove
               </Button>
             </AlertDialog.Footer>

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { CgProfile } from "react-icons/cg";
 import { IoChevronDown, IoLogOutOutline } from "react-icons/io5";
+import { IoIosArrowDown } from "react-icons/io";
 // import {
 //   Button,
 //   Dropdown,
@@ -113,7 +114,10 @@ const Navbar = () => {
                   href="/dashboard"
                   className={`${pathName === "/dashboard" ? "font-bold underline" : " "}`}
                 >
-                  DASHBOARD
+                  <span className="flex items-center">
+                    {" "}
+                    DASHBOARD <IoIosArrowDown />
+                  </span>
                 </Link>
               </li>
             </Dropdown.Trigger>
@@ -121,10 +125,10 @@ const Navbar = () => {
             <Dropdown.Popover>
               <Dropdown.Menu onAction={(key) => console.log(key)}>
                 <Dropdown.Item id="patient">
-                  <li>
+                  <li className="list-none">
                     <Link
-                      href="/dashboard/patient"
-                      className={`${pathName === "/dashboard/patient" ? "font-bold underline" : " "}`}
+                      href="/patientDashboard/patient"
+                      className={`${pathName === "/patientDashboard/patient" ? "font-bold underline" : " "}`}
                     >
                       Patient
                     </Link>
@@ -134,16 +138,23 @@ const Navbar = () => {
                 <Dropdown.Item id="doctor">
                   <li className="list-none">
                     <Link
-                      href="/dashboard/doctor"
-                      className={`${pathName === "/dashboard/doctor" ? "font-bold underline" : " "}`}
+                      href="/doctorDashboard/doctor"
+                      className={`${pathName === "/doctorDashboard/doctor" ? "font-bold underline" : " "}`}
                     >
                       Doctor
                     </Link>
                   </li>
                 </Dropdown.Item>
 
-                <Dropdown.Item id="my-facilities">
-                  Manage My Facilities
+                <Dropdown.Item id="admin">
+                  <li className="list-none">
+                    <Link
+                      href="/adminDashboard/admin"
+                      className={`${pathName === "/adminDashboard/admin" ? "font-bold underline" : " "}`}
+                    >
+                      Admin
+                    </Link>
+                  </li>
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Popover>

@@ -21,7 +21,7 @@ const days = [
   "Friday",
 ];
 
-export default function AddScheduleModal() {
+export default function AddScheduleModal({ onSuccess }) {
   const [day, setDay] = useState("");
   const [status, setStatus] = useState("");
   const [startTime, setStartTime] = useState("");
@@ -44,8 +44,13 @@ export default function AddScheduleModal() {
     const res = await createSchedule(schedule)
     if (res.insertedId){
       toast.success("Create Schedule Successfully!");
-      e.target.reset();
-      redirect("/dashboard/doctor/manageSchedule");
+        setDay("");
+  setStatus("");
+  setStartTime("");
+  setEndTime("");
+  setDuration("");
+
+  onSuccess();
     }
   };
 
