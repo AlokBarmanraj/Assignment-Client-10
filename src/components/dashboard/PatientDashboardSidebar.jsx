@@ -3,7 +3,6 @@ import { authClient } from "@/lib/auth-client";
 import {
   Bell,
   Envelope,
-  Gear,
   House,
   Magnifier,
   Person,

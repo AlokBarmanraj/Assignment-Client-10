@@ -28,8 +28,8 @@ export function DoctorDashboardSidebar() {
     },
     {
       icon: Magnifier,
-      href: "/doctorDashboard/doctor/doctorProfileForm",
-      label: "Doctor Profile",
+      href: "/doctorDashboard/doctor/doctorCreate",
+      label: "Doctor Profile Create",
     },
     {
       icon: Bell,

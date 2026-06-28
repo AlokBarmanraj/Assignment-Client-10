@@ -1,5 +1,6 @@
 "use client";
 
+import { createDoctor } from "@/lib/actions/doctorCreate";
 import { FloppyDisk } from "@gravity-ui/icons";
 import {
   Button,
@@ -14,13 +15,18 @@ import {
   Surface,
   ListBox,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import { FaClock } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function DoctorProfileForm() {
-  const onSubmit = (e) => {
+      const router = useRouter();
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+
+    const formData = new FormData(form);
 
     const data = {
       doctorName: formData.get("doctorName"),
@@ -31,16 +37,24 @@ export default function DoctorProfileForm() {
       hospitalName: formData.get("hospitalName"),
       profileImage: formData.get("profileImage"),
       availableDays: formData.get("availableDays"),
-      availableSlots: {
-        star: formData.get("startTime"),
-        end: formData.get("endTime"),
-      },
+      startTime: formData.get("startTime"),
+      endTime: formData.get("endTime"),
       verificationStatus: formData.get("verificationStatus"),
     };
 
-    console.log(data);
-  };
+    try {
+      const result = await createDoctor(data);
 
+      if (result.insertedId) {
+        console.log(result);
+        form.reset();
+        toast.success("Doctor Profile Create success");
+        router.refresh(); 
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex justify-center p-6">
       <Surface className="w-full max-w-4xl rounded-2xl p-6">
