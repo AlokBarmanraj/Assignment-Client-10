@@ -10,12 +10,6 @@ import { authClient } from "@/lib/auth-client";
 import { CgProfile } from "react-icons/cg";
 import { IoChevronDown, IoLogOutOutline } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-// import {
-//   Button,
-//   Dropdown,
-//   Label,
-//   Description,
-// } from "@heroui/react";
 
 const Navbar = () => {
   const { data: session } = authClient.useSession();
@@ -59,14 +53,6 @@ const Navbar = () => {
           CONTACT US
         </Link>
       </li>
-      {/* <li>
-        <Link
-          href="/dashboard/patient"
-          className={`${pathName === "/dashboard/patient" ? "font-bold underline" : " "}`}
-        >
-          DASHBOARD
-        </Link>
-      </li> */}
     </>
   );
 
@@ -83,29 +69,6 @@ const Navbar = () => {
         <ul className="hidden md:flex items-center gap-8">
           {navLink}
           {/* Dashboard Dropdown */}
-
-          {/* <Dropdown placement="bottom-start">
-      <Button
-        variant="light"
-        endContent={<IoChevronDown className="text-lg" />}
-        className="font-semibold"
-      >
-        DASHBOARD
-      </Button>
-
-      <Dropdown.Popover className="min-w-64 rounded-xl shadow-xl">
-        <Dropdown.Menu aria-label="Dashboard Menu">
-          <Dropdown.Item id="dashboard">
-            <div className="flex flex-col">
-              <Label>
-                <Link href="/dashboard/patient">Dashboard</Link>
-              </Label>
-            </div>
-          </Dropdown.Item>
-
-        </Dropdown.Menu>
-      </Dropdown.Popover>
-    </Dropdown> */}
 
           <Dropdown>
             <Dropdown.Trigger>
@@ -159,15 +122,6 @@ const Navbar = () => {
               </Dropdown.Menu>
             </Dropdown.Popover>
           </Dropdown>
-
-          {/* <li>
-            <Link
-              href="/dashboard/patient"
-              className={`${pathName === "/dashboard/patient" ? "font-bold underline" : " "}`}
-            >
-              DASHBOARD
-            </Link>
-          </li> */}
         </ul>
 
         {/* Right Side */}
@@ -278,6 +232,58 @@ const Navbar = () => {
         <div className="border-t border-default-200 bg-background md:hidden">
           <ul className="flex flex-col gap-4 p-5">
             {navLink}
+            <Dropdown>
+              <Dropdown.Trigger>
+                <li>
+                  <Link
+                    href="/dashboard"
+                    className={`${pathName === "/dashboard" ? "font-bold underline" : " "}`}
+                  >
+                    <span className="flex items-center">
+                      {" "}
+                      DASHBOARD <IoIosArrowDown />
+                    </span>
+                  </Link>
+                </li>
+              </Dropdown.Trigger>
+
+              <Dropdown.Popover>
+                <Dropdown.Menu onAction={(key) => console.log(key)}>
+                  <Dropdown.Item id="patient">
+                    <li className="list-none">
+                      <Link
+                        href="/patientDashboard/patient"
+                        className={`${pathName === "/patientDashboard/patient" ? "font-bold underline" : " "}`}
+                      >
+                        Patient
+                      </Link>
+                    </li>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item id="doctor">
+                    <li className="list-none">
+                      <Link
+                        href="/doctorDashboard/doctor"
+                        className={`${pathName === "/doctorDashboard/doctor" ? "font-bold underline" : " "}`}
+                      >
+                        Doctor
+                      </Link>
+                    </li>
+                  </Dropdown.Item>
+
+                  <Dropdown.Item id="admin">
+                    <li className="list-none">
+                      <Link
+                        href="/adminDashboard/admin"
+                        className={`${pathName === "/adminDashboard/admin" ? "font-bold underline" : " "}`}
+                      >
+                        Admin
+                      </Link>
+                    </li>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Popover>
+            </Dropdown>
             <Link
               href="/profile"
               className="flex items-center font-bold text-xl gap-1"

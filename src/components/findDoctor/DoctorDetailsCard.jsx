@@ -26,12 +26,12 @@ const DoctorDetailsCard = ({ doctorData }) => {
     startTime,
     endTime,
     verificationStatus,
+    description,
   } = doctorData;
 
   return (
     <Card className="p-8 rounded-2xl shadow-lg">
       <div className="grid lg:grid-cols-2 gap-10 items-center">
-
         <div className="flex justify-center">
           <Image
             src={profileImage}
@@ -43,7 +43,6 @@ const DoctorDetailsCard = ({ doctorData }) => {
         </div>
 
         <div className="space-y-5">
-
           <div>
             <h1 className="text-4xl font-bold">{doctorName}</h1>
 
@@ -89,13 +88,22 @@ const DoctorDetailsCard = ({ doctorData }) => {
               verificationStatus === "approved"
                 ? "success"
                 : verificationStatus === "pending"
-                ? "warning"
-                : "danger"
+                  ? "warning"
+                  : "danger"
             }
           >
             {verificationStatus}
           </Chip>
+<div>
+  <h3 className="flex items-center gap-2.5 text-lg font-bold mb-3">
+    <FaUserMd className="text-blue-700" />
+    Description
+  </h3>
 
+  <p className="leading-8 text-default-700 whitespace-pre-line text-justify">
+    {description || "No description available."}
+  </p>
+</div>
           <Button color="primary" size="lg" className="w-full">
             Book Appointment
           </Button>
