@@ -66,7 +66,7 @@ export default function DoctorCreatePage() {
 
       <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-1">
         {doctors.map((doctor) => (
-          <DoctorProfileCard key={doctor._id} doctor={doctor} />
+          <DoctorProfileCard key={doctor._id} doctor={doctor}  refreshDoctor={fetchData}/>
         ))}
       </div>
     </div>

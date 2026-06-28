@@ -13,9 +13,9 @@ import {
   FaEdit,
   FaCheckCircle,
 } from "react-icons/fa";
+import DoctorProfileEdit from "./DoctorProfileEdit";
 
-export default function DoctorProfileCard({ doctor }) {
-
+export default function DoctorProfileCard({ doctor, refreshDoctor }) {
   return (
     <Card
       className="
@@ -208,16 +208,10 @@ export default function DoctorProfileCard({ doctor }) {
           {/* Button */}
 
           <div className="mt-8 flex justify-center lg:justify-end">
-            <Button
-              color="primary"
-              radius="full"
-              size="lg"
-              startContent={<FaEdit />}
-              className="px-8 font-semibold shadow-lg transition-all duration-300 hover:scale-105"
-              onPress={() => onEdit?.(doctor)}
-            >
-              Edit Profile
-            </Button>
+            <DoctorProfileEdit
+              doctor={doctor}
+              onSuccess={refreshDoctor}
+            ></DoctorProfileEdit>
           </div>
         </div>
       </div>

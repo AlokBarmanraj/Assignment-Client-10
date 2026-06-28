@@ -1,7 +1,6 @@
 "use client";
 
 import { Modal, Button } from "@heroui/react";
-import { createDoctor } from "@/lib/actions/doctorCreate";
 import { FloppyDisk } from "@gravity-ui/icons";
 import {
   Description,
@@ -15,11 +14,12 @@ import {
   Surface,
   ListBox,
 } from "@heroui/react";
-import { FaClock, FaPlus } from "react-icons/fa";
+import { FaClock, FaEdit, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { IoMdAddCircle } from "react-icons/io";
+import { updateDoctor } from "@/lib/api/doctorList";
 
-export default function DoctorProfileModal({ onSuccess }) {
+export default function DoctorProfileEdit({  doctor,
+    onSuccess, }) {
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,25 +40,20 @@ export default function DoctorProfileModal({ onSuccess }) {
       endTime: formData.get("endTime"),
       verificationStatus: formData.get("verificationStatus"),
     };
+    const res = await updateDoctor(doctor._id, data);
 
-    try {
-      const result = await createDoctor(data);
-
-      if (result.insertedId) {
-        console.log(result);
-        form.reset();
-        toast.success("Doctor Profile Create success");
-        onSuccess?.();
-      }
-    } catch (error) {
-      console.log(error);
+    console.log(res);
+    if (res.modifiedCount > 0) {
+      toast.success("Schedule Updated Successfully");
+      onSuccess();
+    } else {
+      toast.error("Update Failed");
     }
   };
   return (
     <Modal>
-      <Button startContent={<FaPlus />} color="primary">
-        <IoMdAddCircle />
-        Create Doctor Profile
+      <Button variant="outline" className={"border-none"}>
+        <span className="flex items-center gap-2 font-bold text-xl">Edit<FaEdit className="size-6"></FaEdit></span>
       </Button>
       <Modal.Backdrop variant="blur">
         <Modal.Container>
