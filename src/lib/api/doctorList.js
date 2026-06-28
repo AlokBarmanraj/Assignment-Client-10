@@ -11,15 +11,3 @@ export const getDoctorList = async () => {
 
 
 
-// update Doctor
-export const updateDoctor = async (id, doctor) => {
-  const res = await fetch(`${baseUrl}/api/doctorCreate/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(doctor),
-  });
-
-  return res.json();
-};

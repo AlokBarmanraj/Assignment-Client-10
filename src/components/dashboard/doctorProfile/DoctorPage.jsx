@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
-import DoctorProfileCard from "./DoctorProfileCard";
+import DoctorProfileCard from "./DoctorProfileTable";
 import DoctorProfileModal from "./DoctorProfileModal";
 
 import { getDoctorByUser } from "@/lib/actions/getDoctor";
@@ -15,9 +15,7 @@ export default async function DoctorProfilePage() {
   if (!session?.user) {
     return (
       <div className="flex justify-center items-center h-[70vh]">
-        <h2 className="text-xl font-semibold">
-          Please login first.
-        </h2>
+        <h2 className="text-xl font-semibold">Please login first.</h2>
       </div>
     );
   }
@@ -31,9 +29,7 @@ export default async function DoctorProfilePage() {
     <div className="max-w-6xl mx-auto p-6">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold">
-            Doctor Profile
-          </h1>
+          <h1 className="text-3xl font-bold">Doctor Profile</h1>
 
           <p className="text-default-500 mt-2">
             Create and manage your doctor profile.
@@ -41,10 +37,7 @@ export default async function DoctorProfilePage() {
         </div>
 
         {/* Modal Button */}
-        <DoctorProfileModal
-          doctor={doctor}
-          user={user}
-        />
+        <DoctorProfileModal doctor={doctor} user={user} />
       </div>
 
       {/* Profile Exists */}
@@ -52,13 +45,11 @@ export default async function DoctorProfilePage() {
         <DoctorProfileCard doctor={doctor} />
       ) : (
         <div className="border-2 border-dashed rounded-2xl h-[420px] flex flex-col justify-center items-center text-center p-10">
-          <h2 className="text-2xl font-bold">
-            No Doctor Profile Found
-          </h2>
+          <h2 className="text-2xl font-bold">No Doctor Profile Found</h2>
 
           <p className="text-default-500 mt-3 max-w-md">
-            You haven't created your doctor profile yet.
-            Click the button above to create your profile.
+            You haven't created your doctor profile yet. Click the button above
+            to create your profile.
           </p>
         </div>
       )}

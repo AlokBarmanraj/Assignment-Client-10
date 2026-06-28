@@ -16,10 +16,9 @@ import {
 } from "@heroui/react";
 import { FaClock, FaEdit, FaPlus } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { updateDoctor } from "@/lib/api/doctorList";
+import { updateDoctor } from "@/lib/actions/doctorCreate";
 
-export default function DoctorProfileEdit({  doctor,
-    onSuccess, }) {
+export default function DoctorProfileEdit({ doctor, onSuccess }) {
   const onSubmit = async (e) => {
     e.preventDefault();
 
@@ -53,7 +52,7 @@ export default function DoctorProfileEdit({  doctor,
   return (
     <Modal>
       <Button variant="outline" className={"border-none"}>
-        <span className="flex items-center gap-2 font-bold text-xl">Edit<FaEdit className="size-6"></FaEdit></span>
+        <FaEdit></FaEdit>
       </Button>
       <Modal.Backdrop variant="blur">
         <Modal.Container>
@@ -508,7 +507,6 @@ export default function DoctorProfileEdit({  doctor,
                             </ListBox>
                           </Select.Popover>
                         </Select>
-
                       </Fieldset.Group>
 
                       <Fieldset.Actions>
