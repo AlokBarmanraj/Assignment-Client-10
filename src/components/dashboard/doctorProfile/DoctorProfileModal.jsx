@@ -1,6 +1,6 @@
 "use client";
 
-import { Modal, Button } from "@heroui/react";
+import { Modal, Button, TextArea } from "@heroui/react";
 import { createDoctor } from "@/lib/actions/doctorCreate";
 import { FloppyDisk } from "@gravity-ui/icons";
 import {
@@ -39,6 +39,7 @@ export default function DoctorProfileModal({ onSuccess }) {
       startTime: formData.get("startTime"),
       endTime: formData.get("endTime"),
       verificationStatus: formData.get("verificationStatus"),
+      description: formData.get("description"),
     };
 
     try {
@@ -513,7 +514,25 @@ export default function DoctorProfileModal({ onSuccess }) {
                             </ListBox>
                           </Select.Popover>
                         </Select>
+                        {/* Description */}
+                        <TextField
+                          isRequired
+                          name="description"
+                          className="md:col-span-2"
+                        >
+                          <Label>Description</Label>
 
+                          <TextArea
+                            placeholder="Write doctor's description..."
+                            className="w-full min-h-32 rounded-lg border border-gray-300 p-3"
+                          />
+
+                          <Description>
+                            Write a short description about the doctor.
+                          </Description>
+
+                          <FieldError />
+                        </TextField>
                       </Fieldset.Group>
 
                       <Fieldset.Actions>

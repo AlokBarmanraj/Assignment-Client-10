@@ -101,12 +101,12 @@ const Footer = () => {
           <div className="space-y-3 mt-4">
             <h3 className="flex items-center justify-center md:justify-start text-base sm:text-lg gap-2">
               <CgMail />
-              doctor1999@gmail.com
+              support@healthcare.com
             </h3>
 
             <h3 className="flex items-center justify-center md:justify-start text-base sm:text-lg gap-2">
               <IoMdCall />
-              <span className="font-bold">Hotline:</span> 09259958647, 05259868858
+              <span className="font-bold">Hotline:</span> +880 1234-567890
             </h3>
 
             <div className="flex justify-center md:justify-start font-bold text-2xl gap-3 mt-3">

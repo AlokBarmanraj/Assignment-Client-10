@@ -9,6 +9,11 @@ const nextConfig = {
         hostname: "static.vecteezy.com",
         pathname: "**",
       },
+       {
+        protocol: "https",
+        hostname: "randomuser.me",
+        pathname: "**",
+      },
     ]
    }
 };

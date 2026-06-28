@@ -103,6 +103,27 @@ export default function DoctorProfileView({ doctor }) {
                   value={`${doctor.startTime} - ${doctor.endTime}`}
                 />
               </div>
+              {/* Description */}
+<div className="mt-6 rounded-2xl border border-default-200 bg-default-100 p-6">
+  <div className="mb-4 flex items-center gap-3">
+    <div className="rounded-full bg-primary/10 p-3 text-primary">
+      <FaUserMd className="text-xl" />
+    </div>
+
+    <div>
+      <h3 className="text-lg font-bold">Description</h3>
+      <p className="text-sm text-default-500">
+        Doctor's professional overview
+      </p>
+    </div>
+  </div>
+
+  <div className="rounded-xl bg-white p-4">
+    <p className="leading-8 text-default-700 whitespace-pre-line text-justify">
+      {doctor.description || "No description available."}
+    </p>
+  </div>
+</div>
             </Modal.Body>
 
             <Modal.Footer>
