@@ -33,7 +33,16 @@ const prescriptions = [
 
 export default function PrescriptionTable() {
   return (
-    <div className="w-full overflow-x-auto rounded-2xl border bg-white shadow">
+    <div className="w-full overflow-x-auto rounded-2xl border shadow">
+      <div>
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+          All Prescription
+        </h1>
+
+        <p className="text-gray-500 dark:text-gray-400 mt-2">
+          View all Prescription.
+        </p>
+      </div>
       <Table>
         <Table.ScrollContainer>
           <Table.Content
@@ -72,8 +81,8 @@ export default function PrescriptionTable() {
                         <FaEye />
                       </Button>
 
-                     <UpdatePrescription></UpdatePrescription>
-                     <DeletePrescription></DeletePrescription>
+                      <UpdatePrescription></UpdatePrescription>
+                      <DeletePrescription></DeletePrescription>
                     </div>
                   </Table.Cell>
                 </Table.Row>

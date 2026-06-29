@@ -11,14 +11,14 @@ import {
 
 import {
   FaSearch,
+  FaEye,
   FaMoneyBillWave,
   FaCheckCircle,
   FaClock,
   FaTimesCircle,
-  FaEye,
 } from "react-icons/fa";
 
-export default function TotalPaymentsPage() {
+export default function MonitorsPaymentsPage() {
   const [payments] = useState([
     {
       id: 1,
@@ -63,21 +63,19 @@ export default function TotalPaymentsPage() {
 
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-5 mb-8">
-
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            Total Payments
+            Monitor Payments
           </h1>
 
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            View all payment records and transaction history.
+            Track and manage all payment transactions.
           </p>
         </div>
 
         <Button color="primary">
-          Payment Report
+          Payment History
         </Button>
-
       </div>
 
       {/* Summary Cards */}
@@ -86,13 +84,12 @@ export default function TotalPaymentsPage() {
         <Card className="p-6 bg-white dark:bg-zinc-900">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-gray-500">Total Revenue</p>
-              <h2 className="text-3xl font-bold text-green-600">
-                $24,500
+              <p className="text-gray-500">Total Payments</p>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                320
               </h2>
             </div>
-
-            <FaMoneyBillWave className="text-5xl text-green-500" />
+            <FaMoneyBillWave className="text-5xl text-blue-500" />
           </div>
         </Card>
 
@@ -104,7 +101,6 @@ export default function TotalPaymentsPage() {
                 280
               </h2>
             </div>
-
             <FaCheckCircle className="text-5xl text-green-500" />
           </div>
         </Card>
@@ -117,7 +113,6 @@ export default function TotalPaymentsPage() {
                 28
               </h2>
             </div>
-
             <FaClock className="text-5xl text-yellow-500" />
           </div>
         </Card>
@@ -130,7 +125,6 @@ export default function TotalPaymentsPage() {
                 12
               </h2>
             </div>
-
             <FaTimesCircle className="text-5xl text-red-500" />
           </div>
         </Card>
@@ -173,7 +167,7 @@ export default function TotalPaymentsPage() {
 
                 <td>{payment.doctor}</td>
 
-                <td className="font-bold text-green-600">
+                <td className="font-semibold text-primary">
                   {payment.amount}
                 </td>
 
@@ -205,7 +199,7 @@ export default function TotalPaymentsPage() {
 
       </Card>
 
-      {/* Mobile Cards */}
+      {/* Mobile View */}
       <div className="grid gap-5 lg:hidden">
 
         {payments.map((payment) => (
@@ -231,7 +225,7 @@ export default function TotalPaymentsPage() {
                   {payment.doctor}
                 </p>
 
-                <p className="font-semibold text-green-600 mt-1">
+                <p className="font-semibold text-primary mt-1">
                   {payment.amount}
                 </p>
 
@@ -249,13 +243,15 @@ export default function TotalPaymentsPage() {
 
             </div>
 
-            <Button
-              color="primary"
-              className="w-full mt-5"
-            >
-              <FaEye />
-              View Details
-            </Button>
+            <div className="mt-5">
+              <Button
+                color="primary"
+                className="w-full"
+              >
+                <FaEye />
+                View Details
+              </Button>
+            </div>
 
           </Card>
 

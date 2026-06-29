@@ -56,7 +56,7 @@ export function DoctorDashboardSidebar() {
     {
       icon: Person,
       href: "/doctorDashboard/doctor/profileManagement",
-      label: "Profile Management",
+      label: "Profile",
     },
   ];
 

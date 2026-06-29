@@ -11,51 +11,49 @@ import {
 
 import {
   FaSearch,
-  FaMoneyBillWave,
-  FaCheckCircle,
-  FaClock,
-  FaTimesCircle,
   FaEye,
+  FaCheck,
+  FaTimes,
+  FaCalendarCheck,
+  FaUserMd,
+  FaUserInjured,
 } from "react-icons/fa";
 
-export default function TotalPaymentsPage() {
-  const [payments] = useState([
+export default function OverseesAppointmentsPage() {
+  const [appointments] = useState([
     {
       id: 1,
       patient: "John Doe",
       doctor: "Dr. Sarah Ahmed",
-      amount: "$120",
-      method: "Card",
       date: "30 Jun 2026",
-      status: "Paid",
+      time: "10:30 AM",
+      status: "Pending",
       image: "https://i.pravatar.cc/150?img=1",
     },
     {
       id: 2,
       patient: "Alex Smith",
       doctor: "Dr. Emily",
-      amount: "$90",
-      method: "Bkash",
       date: "01 Jul 2026",
-      status: "Pending",
+      time: "02:00 PM",
+      status: "Approved",
       image: "https://i.pravatar.cc/150?img=2",
     },
     {
       id: 3,
       patient: "Michael",
       doctor: "Dr. John",
-      amount: "$150",
-      method: "Nagad",
       date: "02 Jul 2026",
-      status: "Failed",
+      time: "11:00 AM",
+      status: "Cancelled",
       image: "https://i.pravatar.cc/150?img=3",
     },
   ]);
 
   const statusColor = {
-    Paid: "success",
     Pending: "warning",
-    Failed: "danger",
+    Approved: "success",
+    Cancelled: "danger",
   };
 
   return (
@@ -63,49 +61,47 @@ export default function TotalPaymentsPage() {
 
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-5 mb-8">
-
         <div>
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
-            Total Payments
+            Oversee Appointments
           </h1>
 
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            View all payment records and transaction history.
+            Manage all patient appointments from one place.
           </p>
         </div>
 
         <Button color="primary">
-          Payment Report
+          All Appointments
         </Button>
-
       </div>
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
 
         <Card className="p-6 bg-white dark:bg-zinc-900">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-gray-500">Total Revenue</p>
-              <h2 className="text-3xl font-bold text-green-600">
-                $24,500
+              <p className="text-gray-500">Total</p>
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+                120
               </h2>
             </div>
 
-            <FaMoneyBillWave className="text-5xl text-green-500" />
+            <FaCalendarCheck className="text-5xl text-blue-500" />
           </div>
         </Card>
 
         <Card className="p-6 bg-white dark:bg-zinc-900">
           <div className="flex justify-between items-center">
             <div>
-              <p className="text-gray-500">Paid</p>
+              <p className="text-gray-500">Approved</p>
               <h2 className="text-3xl font-bold text-green-500">
-                280
+                84
               </h2>
             </div>
 
-            <FaCheckCircle className="text-5xl text-green-500" />
+            <FaCheck className="text-5xl text-green-500" />
           </div>
         </Card>
 
@@ -114,24 +110,11 @@ export default function TotalPaymentsPage() {
             <div>
               <p className="text-gray-500">Pending</p>
               <h2 className="text-3xl font-bold text-yellow-500">
-                28
+                36
               </h2>
             </div>
 
-            <FaClock className="text-5xl text-yellow-500" />
-          </div>
-        </Card>
-
-        <Card className="p-6 bg-white dark:bg-zinc-900">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-gray-500">Failed</p>
-              <h2 className="text-3xl font-bold text-red-500">
-                12
-              </h2>
-            </div>
-
-            <FaTimesCircle className="text-5xl text-red-500" />
+            <FaTimes className="text-5xl text-yellow-500" />
           </div>
         </Card>
 
@@ -146,52 +129,65 @@ export default function TotalPaymentsPage() {
             <tr>
               <th className="p-4 text-left">Patient</th>
               <th>Doctor</th>
-              <th>Amount</th>
-              <th>Method</th>
               <th>Date</th>
+              <th>Time</th>
               <th>Status</th>
-              <th className="text-center">Action</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
 
           <tbody>
 
-            {payments.map((payment) => (
+            {appointments.map((appointment) => (
 
               <tr
-                key={payment.id}
+                key={appointment.id}
                 className="border-b dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800"
               >
                 <td className="p-4">
                   <div className="flex items-center gap-3">
-                    <Avatar src={payment.image} />
-                    <h2 className="font-semibold text-gray-900 dark:text-white">
-                      {payment.patient}
-                    </h2>
+                    <Avatar src={appointment.image} />
+
+                    <div>
+                      <h2 className="font-semibold text-gray-900 dark:text-white">
+                        {appointment.patient}
+                      </h2>
+                    </div>
                   </div>
                 </td>
 
-                <td>{payment.doctor}</td>
-
-                <td className="font-bold text-green-600">
-                  {payment.amount}
+                <td>
+                  <div className="flex items-center gap-2">
+                    <FaUserMd className="text-primary" />
+                    {appointment.doctor}
+                  </div>
                 </td>
 
-                <td>{payment.method}</td>
+                <td>{appointment.date}</td>
 
-                <td>{payment.date}</td>
+                <td>{appointment.time}</td>
 
                 <td>
-                  <Chip color={statusColor[payment.status]}>
-                    {payment.status}
+                  <Chip color={statusColor[appointment.status]}>
+                    {appointment.status}
                   </Chip>
                 </td>
 
                 <td>
-                  <div className="flex justify-center">
+                  <div className="flex justify-center gap-2">
+
                     <Button isIconOnly color="primary">
                       <FaEye />
                     </Button>
+
+                    <Button isIconOnly color="success">
+                      <FaCheck />
+                    </Button>
+
+                    <Button isIconOnly color="danger">
+                      <FaTimes />
+                    </Button>
+
                   </div>
                 </td>
 
@@ -208,54 +204,58 @@ export default function TotalPaymentsPage() {
       {/* Mobile Cards */}
       <div className="grid gap-5 lg:hidden">
 
-        {payments.map((payment) => (
+        {appointments.map((appointment) => (
 
           <Card
-            key={payment.id}
+            key={appointment.id}
             className="p-5 bg-white dark:bg-zinc-900"
           >
-
             <div className="flex items-center gap-4">
 
               <Avatar
-                src={payment.image}
+                src={appointment.image}
                 className="w-16 h-16"
               />
 
               <div>
                 <h2 className="font-bold text-gray-900 dark:text-white">
-                  {payment.patient}
+                  {appointment.patient}
                 </h2>
 
-                <p className="text-sm text-gray-500">
-                  {payment.doctor}
+                <p className="text-sm text-gray-500 flex items-center gap-2">
+                  <FaUserMd />
+                  {appointment.doctor}
                 </p>
 
-                <p className="font-semibold text-green-600 mt-1">
-                  {payment.amount}
-                </p>
-
-                <p className="text-sm">
-                  {payment.method}
+                <p className="text-sm mt-1">
+                  {appointment.date} • {appointment.time}
                 </p>
 
                 <Chip
                   className="mt-2"
-                  color={statusColor[payment.status]}
+                  color={statusColor[appointment.status]}
                 >
-                  {payment.status}
+                  {appointment.status}
                 </Chip>
               </div>
 
             </div>
 
-            <Button
-              color="primary"
-              className="w-full mt-5"
-            >
-              <FaEye />
-              View Details
-            </Button>
+            <div className="grid grid-cols-3 gap-3 mt-5">
+
+              <Button color="primary">
+                <FaEye />
+              </Button>
+
+              <Button color="success">
+                <FaCheck />
+              </Button>
+
+              <Button color="danger">
+                <FaTimes />
+              </Button>
+
+            </div>
 
           </Card>
 
