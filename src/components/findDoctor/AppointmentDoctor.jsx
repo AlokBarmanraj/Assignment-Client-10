@@ -31,7 +31,6 @@ export default function AppointmentDoctor() {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    console.log(data);
 
     try {
       const res = await fetch(
