@@ -31,20 +31,22 @@ export function DoctorDashboardSidebar() {
       href: "/doctorDashboard/doctor/doctorCreate",
       label: "Doctor Profile Create",
     },
+
     {
-      icon: Bell,
-      href: "/doctorDashboard/doctor/allPrescription",
-      label: "All Prescription",
+      icon: Gear,
+      href: "/doctorDashboard/doctor/appointmentRequests",
+      label: "Appointment Requests",
     },
     {
       icon: Envelope,
       href: "/doctorDashboard/doctor/appointmentComplete",
       label: "Appointment Complete",
     },
+
     {
-      icon: Person,
-      href: "/doctorDashboard/doctor/profileManagement",
-      label: "Profile Management",
+      icon: Bell,
+      href: "/doctorDashboard/doctor/allPrescription",
+      label: "All Prescription",
     },
     {
       icon: Gear,
@@ -52,9 +54,9 @@ export function DoctorDashboardSidebar() {
       label: "Prescription Management",
     },
     {
-      icon: Gear,
-      href: "/doctorDashboard/doctor/appointmentRequests",
-      label: "Appointment Requests",
+      icon: Person,
+      href: "/doctorDashboard/doctor/profileManagement",
+      label: "Profile Management",
     },
   ];
 

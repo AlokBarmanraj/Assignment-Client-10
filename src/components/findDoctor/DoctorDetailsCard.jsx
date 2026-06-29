@@ -2,6 +2,7 @@
 
 import { Card, Button, Chip } from "@heroui/react";
 import Image from "next/image";
+import Link from "next/link";
 
 import {
   FaUserMd,
@@ -13,7 +14,7 @@ import {
   FaClock,
 } from "react-icons/fa";
 
-const DoctorDetailsCard = ({ doctorData }) => {
+const DoctorDetailsCard = ({ doctorData,id }) => {
   const {
     doctorName,
     specialization,
@@ -94,19 +95,21 @@ const DoctorDetailsCard = ({ doctorData }) => {
           >
             {verificationStatus}
           </Chip>
-<div>
-  <h3 className="flex items-center gap-2.5 text-lg font-bold mb-3">
-    <FaUserMd className="text-blue-700" />
-    Description
-  </h3>
+          <div>
+            <h3 className="flex items-center gap-2.5 text-lg font-bold mb-3">
+              <FaUserMd className="text-blue-700" />
+              Description
+            </h3>
 
-  <p className="leading-8 text-default-700 whitespace-pre-line text-justify">
-    {description || "No description available."}
-  </p>
-</div>
-          <Button color="primary" size="lg" className="w-full">
-            Book Appointment
-          </Button>
+            <p className="leading-8 text-default-700 whitespace-pre-line text-justify">
+              {description || "No description available."}
+            </p>
+          </div>
+          <Link href={`/findDoctors/${id}/appointment`}>
+            <Button color="primary" size="lg" className="w-full">
+              Book Appointment
+            </Button>
+          </Link>
         </div>
       </div>
     </Card>

@@ -68,7 +68,8 @@ const SearchAndFilterDoctor = () => {
         <select
           value={selectedSpecialization}
           onChange={(e) => setSelectedSpecialization(e.target.value)}
-          className="w-full md:w-[250px] border rounded-xl px-4 py-3 outline-none"
+          // className="w-full md:w-[250px] border rounded-xl px-4 py-3 outline-none"
+          className="w-full md:w-[250px] border rounded-xl px-4 py-3 outline-none bg-white text-black dark:bg-zinc-900 dark:text-white"
         >
           <option value="">All Specializations</option>
 

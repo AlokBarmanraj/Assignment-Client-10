@@ -14,9 +14,13 @@ import { FcGoogle } from "react-icons/fc";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { authClient } from "@/lib/auth-client";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get("redirect")|| "/";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -28,12 +32,11 @@ const LoginPage = () => {
     const { data, error } = await authClient.signIn.email({
       email: user.email,
       password: user.password,
-      callbackURL: "/",
     });
 
     if (data) {
       toast.success("Sign Up Successfully!");
-      redirect("/");
+      router.push(redirectTo);
     }
 
     if (error) {
