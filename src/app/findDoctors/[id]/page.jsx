@@ -3,7 +3,7 @@ import React from "react";
 
 const DoctorDetails = async ({ params }) => {
   const { id } = await params;
-  const res = await fetch(`http://localhost:5000/api/findDoctors/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/findDoctors/${id}`, {
     cache: "no-store",
   });
 
