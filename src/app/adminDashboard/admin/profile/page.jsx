@@ -14,6 +14,7 @@ import {
   FaUsers,
   FaCalendarCheck,
 } from "react-icons/fa";
+import Image from "next/image";
 
 const ProfilePage = () => {
   return (
@@ -21,10 +22,13 @@ const ProfilePage = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-10 text-white shadow-xl">
         <div className="flex flex-col md:flex-row items-center gap-6">
-          <Avatar
-            src="https://i.pravatar.cc/200?img=12"
-            className="w-32 h-32 border-4 border-white"
-          />
+            <Image
+              src={'https://randomuser.me/api/portraits/men/39.jpg'}
+              alt="image"
+              width={180}
+              height={180}
+              className="rounded-full border-4 border-blue-500 object-cover"
+            />
 
           <div>
             <h1 className="text-4xl font-bold">Admin Panel</h1>

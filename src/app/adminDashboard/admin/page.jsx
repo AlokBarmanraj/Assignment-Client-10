@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardCharts from "@/components/dashboard/admin/DashboardCharts";
 import { Card, Button } from "@heroui/react";
 import {
   FaUserMd,
@@ -61,16 +62,13 @@ export default function AdminPage() {
             Welcome Back, Admin 👋
           </h1>
 
-          <p className="text-slate-500 mt-2">
-            Hospital Management Dashboard
-          </p>
+          <p className="text-slate-500 mt-2">Hospital Management Dashboard</p>
         </div>
 
         <Button color="primary" startContent={<FaBell />}>
           Notifications
         </Button>
       </div>
-
       {/* Statistics */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {stats.map((item, index) => (
@@ -87,125 +85,12 @@ export default function AdminPage() {
                 </div>
               </div>
 
-              <div className={`${item.color} p-5 rounded-2xl`}>
-                {item.icon}
-              </div>
+              <div className={`${item.color} p-5 rounded-2xl`}>{item.icon}</div>
             </div>
           </Card>
         ))}
       </div>
-
-      {/* Middle */}
-      <div className="grid lg:grid-cols-3 gap-6 mt-10">
-        {/* Recent Activity */}
-        <Card className="lg:col-span-2 shadow-xl">
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Recent Activities
-            </h2>
-
-            <div className="space-y-5">
-              <div className="flex justify-between border-b pb-3">
-                <span>✅ Dr. John accepted an appointment</span>
-                <span className="text-gray-400">2 min ago</span>
-              </div>
-
-              <div className="flex justify-between border-b pb-3">
-                <span>👤 New patient registered</span>
-                <span className="text-gray-400">10 min ago</span>
-              </div>
-
-              <div className="flex justify-between border-b pb-3">
-                <span>💳 Payment completed</span>
-                <span className="text-gray-400">25 min ago</span>
-              </div>
-
-              <div className="flex justify-between border-b pb-3">
-                <span>⭐ New Review Added</span>
-                <span className="text-gray-400">1 hour ago</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>📅 Appointment Completed</span>
-                <span className="text-gray-400">2 hours ago</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Quick Actions */}
-        <Card className="shadow-xl">
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-6">
-              Quick Actions
-            </h2>
-
-            <div className="space-y-4">
-              <Button color="primary" className="w-full">
-                Add Doctor
-              </Button>
-
-              <Button color="success" className="w-full">
-                Manage Patients
-              </Button>
-
-              <Button color="secondary" className="w-full">
-                View Appointments
-              </Button>
-
-              <Button color="warning" className="w-full">
-                Reports
-              </Button>
-
-              <Button color="danger" className="w-full">
-                Send Notification
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </div>
-
-      {/* Bottom */}
-      <div className="grid lg:grid-cols gap-6 mt-10">
-        <Card className="shadow-xl">
-          <div className="p-6">
-            <h2 className="text-2xl font-bold mb-5">
-              System Overview
-            </h2>
-
-            <div className="space-y-4">
-              <div className="flex justify-between">
-                <span>Server Status</span>
-                <span className="text-green-600 font-bold">
-                  Online
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Database</span>
-                <span className="text-green-600 font-bold">
-                  Connected
-                </span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Today's Appointments</span>
-                <span>42</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Completed Today</span>
-                <span>28</span>
-              </div>
-
-              <div className="flex justify-between">
-                <span>Pending</span>
-                <span>14</span>
-              </div>
-            </div>
-          </div>
-        </Card>
-      </div>
+      <DashboardCharts></DashboardCharts>
     </div>
   );
 }

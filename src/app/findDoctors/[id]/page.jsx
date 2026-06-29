@@ -1,10 +1,18 @@
 import DoctorDetailsCard from "@/components/findDoctor/DoctorDetailsCard";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 import React from "react";
 
 const DoctorDetails = async ({ params }) => {
   const { id } = await params;
+  const {token} = await auth.api.getToken({
+    headers:await headers()
+  })
+  console.log(token);
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/findDoctors/${id}`, {
-    cache: "no-store",
+    headers:{
+      authorization:`Bearer ${token}`
+    },
   });
 
   const doctorData = await res.json();
