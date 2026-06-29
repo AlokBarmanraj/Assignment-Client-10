@@ -4,7 +4,7 @@ import {
   House,
   Calendar,
   PersonPlus,
-  ClipboardCheck,
+  Bell,
   CircleCheck,
   FileText,
   PencilToSquare,
@@ -34,7 +34,7 @@ const navItems = [
     label: "Doctor Profile Create",
   },
   {
-    icon: ClipboardCheck,
+    icon: Bell,
     href: "/doctorDashboard/doctor/appointmentRequests",
     label: "Appointment Requests",
   },
