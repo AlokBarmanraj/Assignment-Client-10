@@ -1,11 +1,13 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import {
-  Bell,
-  Envelope,
-  Gear,
   House,
-  Magnifier,
+  Calendar,
+  PersonPlus,
+  ClipboardCheck,
+  CircleCheck,
+  FileText,
+  PencilToSquare,
   Person,
 } from "@gravity-ui/icons";
 import { Avatar, Button, Drawer } from "@heroui/react";
@@ -15,50 +17,48 @@ import Link from "next/link";
 export function DoctorDashboardSidebar() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  const navItems = [
-    {
-      icon: House,
-      href: "/doctorDashboard/doctor",
-      label: "Dashboard",
-    },
-    {
-      icon: House,
-      href: "/doctorDashboard/doctor/manageSchedule",
-      label: "Manage Schedule",
-    },
-    {
-      icon: Magnifier,
-      href: "/doctorDashboard/doctor/doctorCreate",
-      label: "Doctor Profile Create",
-    },
-
-    {
-      icon: Gear,
-      href: "/doctorDashboard/doctor/appointmentRequests",
-      label: "Appointment Requests",
-    },
-    {
-      icon: Envelope,
-      href: "/doctorDashboard/doctor/appointmentComplete",
-      label: "Appointment Complete",
-    },
-
-    {
-      icon: Bell,
-      href: "/doctorDashboard/doctor/allPrescription",
-      label: "All Prescription",
-    },
-    {
-      icon: Gear,
-      href: "/doctorDashboard/doctor/prescriptionManagement",
-      label: "Prescription Management",
-    },
-    {
-      icon: Person,
-      href: "/doctorDashboard/doctor/profileManagement",
-      label: "Profile",
-    },
-  ];
+const navItems = [
+  {
+    icon: House,
+    href: "/doctorDashboard/doctor",
+    label: "Dashboard",
+  },
+  {
+    icon: Calendar,
+    href: "/doctorDashboard/doctor/manageSchedule",
+    label: "Manage Schedule",
+  },
+  {
+    icon: PersonPlus,
+    href: "/doctorDashboard/doctor/doctorCreate",
+    label: "Doctor Profile Create",
+  },
+  {
+    icon: ClipboardCheck,
+    href: "/doctorDashboard/doctor/appointmentRequests",
+    label: "Appointment Requests",
+  },
+  {
+    icon: CircleCheck,
+    href: "/doctorDashboard/doctor/appointmentComplete",
+    label: "Appointment Complete",
+  },
+  {
+    icon: FileText,
+    href: "/doctorDashboard/doctor/allPrescription",
+    label: "All Prescription",
+  },
+  {
+    icon: PencilToSquare,
+    href: "/doctorDashboard/doctor/prescriptionManagement",
+    label: "Prescription Management",
+  },
+  {
+    icon: Person,
+    href: "/doctorDashboard/doctor/profileManagement",
+    label: "Profile",
+  },
+];
 
   const navContent = (
     <>

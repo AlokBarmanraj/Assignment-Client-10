@@ -1,11 +1,11 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import {
-  Bell,
-  Envelope,
-  Gear,
   House,
-  Magnifier,
+  Persons,
+  CircleCheck,
+  Calendar,
+ CreditCard,
   Person,
 } from "@gravity-ui/icons";
 import { Avatar, Button, Drawer } from "@heroui/react";
@@ -15,35 +15,38 @@ import Link from "next/link";
 export function AdminDashboardSidebar() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  const navItems = [
-    {
-      icon: House,
-      href: "/adminDashboard/admin",
-      label: "Dashboard",
-    },
-    {
-      icon: Bell,
-      href: "/adminDashboard/admin/managesUsers",
-      label: "Manages Users",
-    },
-    {
-      icon: Envelope,
-      href: "/adminDashboard/admin/verifiesDoctors",
-      label: "Verifies Doctors",
-    },
-    {
-      icon: Person,
-      href: "/adminDashboard/admin/overseesAppointments",
-      label: "Oversees Appointments",
-    },
-    {
-      icon: Person,
-      href: "/adminDashboard/admin/monitorsPayments",
-      label: "Monitors Payments",
-    },
-    { icon: Person, href: "/adminDashboard/admin/profile", label: "Profile" },
-  ];
-
+const navItems = [
+  {
+    icon: House,
+    href: "/adminDashboard/admin",
+    label: "Dashboard",
+  },
+  {
+    icon: Persons,
+    href: "/adminDashboard/admin/managesUsers",
+    label: "Manages Users",
+  },
+  {
+    icon: CircleCheck,
+    href: "/adminDashboard/admin/verifiesDoctors",
+    label: "Verifies Doctors",
+  },
+  {
+    icon: Calendar,
+    href: "/adminDashboard/admin/overseesAppointments",
+    label: "Oversees Appointments",
+  },
+  {
+    icon: CreditCard,
+    href: "/adminDashboard/admin/monitorsPayments",
+    label: "Monitors Payments",
+  },
+  {
+    icon: Person,
+    href: "/adminDashboard/admin/profile",
+    label: "Profile",
+  },
+];
   const navContent = (
     <>
       <nav className="flex flex-col gap-1">

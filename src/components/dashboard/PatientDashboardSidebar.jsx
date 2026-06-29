@@ -1,10 +1,11 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import {
-  Bell,
-  Envelope,
   House,
-  Magnifier,
+  Calendar,
+  Clock,
+  Heart,
+  CreditCard,
   Person,
 } from "@gravity-ui/icons";
 import { Avatar, Button, Drawer } from "@heroui/react";
@@ -14,38 +15,38 @@ import Link from "next/link";
 export function PatientDashboardSidebar() {
   const { data: session } = authClient.useSession();
   const user = session?.user;
-  const navItems = [
-    {
-      icon: House,
-      href: "/patientDashboard/patient",
-      label: "Dashboard",
-    },
-    {
-      icon: Person,
-      href: "/patientDashboard/patient/upcomingAppointments",
-      label: "Upcoming Appointments",
-    },
-    {
-      icon: Magnifier,
-      href: "/patientDashboard/patient/appointmentHistory",
-      label: "Appointment History",
-    },
-    {
-      icon: Bell,
-      href: "/patientDashboard/patient/favoriteDoctors",
-      label: "Favorite Doctors",
-    },
-    {
-      icon: Envelope,
-      href: "/patientDashboard/patient/totalPayments",
-      label: "Total Payments",
-    },
-    {
-      icon: Person,
-      href: "/patientDashboard/patient/profile",
-      label: "Profile",
-    },
-  ];
+const navItems = [
+  {
+    icon: House,
+    href: "/patientDashboard/patient",
+    label: "Dashboard",
+  },
+  {
+    icon: Calendar,
+    href: "/patientDashboard/patient/upcomingAppointments",
+    label: "Upcoming Appointments",
+  },
+  {
+    icon: Clock,
+    href: "/patientDashboard/patient/appointmentHistory",
+    label: "Appointment History",
+  },
+  {
+    icon: Heart,
+    href: "/patientDashboard/patient/favoriteDoctors",
+    label: "Favorite Doctors",
+  },
+  {
+    icon: CreditCard,
+    href: "/patientDashboard/patient/totalPayments",
+    label: "Total Payments",
+  },
+  {
+    icon: Person,
+    href: "/patientDashboard/patient/profile",
+    label: "Profile",
+  },
+];
 
   const navContent = (
     <>
