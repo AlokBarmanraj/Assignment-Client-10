@@ -12,7 +12,6 @@ const DoctorDetails = async ({ params }) => {
     headers:await headers()
   })
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/findDoctors/${id}`, {
-    cache: "no-store",
     headers:{
       authorization:`Bearer ${token}`
     },
