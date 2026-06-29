@@ -5,6 +5,9 @@ import {
   FaMapMarkerAlt,
   FaClock,
 } from "react-icons/fa";
+export const metadata = {
+  title: "Doctor| ContactUs",
+};
 
 const ContactUsPage = () => {
   return (

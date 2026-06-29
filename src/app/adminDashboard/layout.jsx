@@ -1,5 +1,8 @@
 import { AdminDashboardSidebar } from "@/components/dashboard/AdminDashboardSidebar";
 import React from "react";
+export const metadata = {
+  title: "Doctor | Admin",
+};
 
 const DashboardLayout = ({ children }) => {
   return (

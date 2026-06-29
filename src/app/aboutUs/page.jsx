@@ -7,6 +7,9 @@ import {
   FaClock,
   FaUsers,
 } from "react-icons/fa";
+export const metadata = {
+  title: "Doctor| AboutUs",
+};
 
 const AboutUsPage = () => {
   return (
