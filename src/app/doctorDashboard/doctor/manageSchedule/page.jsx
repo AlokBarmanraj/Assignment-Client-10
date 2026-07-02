@@ -1,3 +1,4 @@
+
 "use client";
 
 import ScheduleTable from "@/components/dashboard/schedule/ScheduleTable";
@@ -14,7 +15,7 @@ export default function ManageSchedulePage() {
           <h1 className="text-3xl font-bold">Manage Schedule</h1>
 
           <p className="mt-2 text-default-500">
-            Manage your weekly schedule and appointment slots.
+            Manage your weekly schedule and appointment.
           </p>
         </div>
 

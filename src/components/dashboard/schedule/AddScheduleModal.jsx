@@ -7,7 +7,6 @@ import { FaPlus, FaCalendarAlt } from "react-icons/fa";
 import { IoMdAddCircle } from "react-icons/io";
 import { toast } from "react-toastify";
 import { createSchedule } from "@/lib/actions/schedule";
-import { redirect } from "next/navigation";
 
 const statuses = ["Available", "Booked", "Off Day"];
 
