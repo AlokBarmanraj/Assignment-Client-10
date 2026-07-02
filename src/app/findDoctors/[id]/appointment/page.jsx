@@ -1,6 +1,7 @@
 
-
+"use client"
 import AppointmentDoctor from '@/components/findDoctor/AppointmentDoctor';
+import { authClient } from '@/lib/auth-client';
 import React from 'react';
 
 const AppointmentPage = () => {
