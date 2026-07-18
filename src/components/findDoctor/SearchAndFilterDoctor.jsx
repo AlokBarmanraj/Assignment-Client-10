@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { Button, Spinner } from "@heroui/react";
+import { Button, Spinner, Pagination } from "@heroui/react";
 import DoctorCard from "./DoctorCard";
 import { getDoctorList } from "@/lib/api/doctorList";
 
@@ -12,6 +12,11 @@ const SearchAndFilterDoctor = () => {
   const [searchInput, setSearchInput] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSpecialization, setSelectedSpecialization] = useState("");
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+
+  const itemsPerPage = 6;
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -27,6 +32,10 @@ const SearchAndFilterDoctor = () => {
 
     fetchDoctors();
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm, selectedSpecialization]);
 
   const specializations = [
     ...new Set(doctors.map((doctor) => doctor.specialization).filter(Boolean)),
@@ -46,8 +55,53 @@ const SearchAndFilterDoctor = () => {
     });
   }, [doctors, searchTerm, selectedSpecialization]);
 
+  const totalItems = filteredDoctors.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const paginatedDoctors = useMemo(() => {
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+
+    return filteredDoctors.slice(start, end);
+  }, [filteredDoctors, page]);
+
+  const getPageNumbers = () => {
+    const pages = [];
+
+    if (totalPages <= 1) return [1];
+
+    pages.push(1);
+
+    if (page > 3) {
+      pages.push("ellipsis");
+    }
+
+    const start = Math.max(2, page - 1);
+    const end = Math.min(totalPages - 1, page + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (page < totalPages - 2) {
+      pages.push("ellipsis");
+    }
+
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
+  const startItem = totalItems === 0 ? 0 : (page - 1) * itemsPerPage + 1;
+
+  const endItem = Math.min(page * itemsPerPage, totalItems);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="mt-16 max-w-7xl mx-auto px-4 py-10">
+      {/* Search & Filter */}
+
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <input
           type="text"
@@ -59,7 +113,7 @@ const SearchAndFilterDoctor = () => {
 
         <Button
           color="primary"
-          onClick={() => setSearchTerm(searchInput)}
+          onPress={() => setSearchTerm(searchInput)}
           className="text-white px-8"
         >
           Search
@@ -68,7 +122,6 @@ const SearchAndFilterDoctor = () => {
         <select
           value={selectedSpecialization}
           onChange={(e) => setSelectedSpecialization(e.target.value)}
-          // className="w-full md:w-[250px] border rounded-xl px-4 py-3 outline-none"
           className="w-full md:w-[250px] border rounded-xl px-4 py-3 outline-none bg-white text-black dark:bg-zinc-900 dark:text-white"
         >
           <option value="">All Specializations</option>
@@ -86,11 +139,66 @@ const SearchAndFilterDoctor = () => {
           <Spinner size="lg" />
         </div>
       ) : filteredDoctors.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredDoctors.map((doctor) => (
-            <DoctorCard key={doctor._id} doctor={doctor} />
-          ))}
-        </div>
+        <>
+          {/* Doctor Cards */}
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {paginatedDoctors.map((doctor) => (
+              <DoctorCard key={doctor._id} doctor={doctor} />
+            ))}
+          </div>
+
+          {/* Pagination */}
+
+          {totalPages > 1 && (
+            <div className="mt-10">
+              <Pagination className="w-full">
+                <Pagination.Summary>
+                  Showing {startItem}-{endItem} of {totalItems} results
+                </Pagination.Summary>
+
+                <Pagination.Content>
+                  <Pagination.Item>
+                    <Pagination.Previous
+                      isDisabled={page === 1}
+                      onPress={() => setPage((p) => p - 1)}
+                    >
+                      <Pagination.PreviousIcon />
+                      <span>Previous</span>
+                    </Pagination.Previous>
+                  </Pagination.Item>
+
+                  {getPageNumbers().map((p, i) =>
+                    p === "ellipsis" ? (
+                      <Pagination.Item key={`ellipsis-${i}`}>
+                        <Pagination.Ellipsis />
+                      </Pagination.Item>
+                    ) : (
+                      <Pagination.Item key={p}>
+                        <Pagination.Link
+                          isActive={p === page}
+                          onPress={() => setPage(p)}
+                        >
+                          {p}
+                        </Pagination.Link>
+                      </Pagination.Item>
+                    ),
+                  )}
+
+                  <Pagination.Item>
+                    <Pagination.Next
+                      isDisabled={page === totalPages}
+                      onPress={() => setPage((p) => p + 1)}
+                    >
+                      <span>Next</span>
+                      <Pagination.NextIcon />
+                    </Pagination.Next>
+                  </Pagination.Item>
+                </Pagination.Content>
+              </Pagination>
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-center text-gray-500 text-lg py-20">
           No doctors found.
