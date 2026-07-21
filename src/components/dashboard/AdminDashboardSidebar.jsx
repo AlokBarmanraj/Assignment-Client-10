@@ -1,6 +1,7 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
 import {
+  Stethoscope,
   House,
   Persons,
   CircleCheck,
@@ -25,6 +26,11 @@ const navItems = [
     icon: Persons,
     href: "/adminDashboard/admin/managesUsers",
     label: "Manages Users",
+  },
+  {
+    icon: Stethoscope,
+    href: "/adminDashboard/admin/manageDoctors",
+    label: "Manages Doctors",
   },
   {
     icon: CircleCheck,
