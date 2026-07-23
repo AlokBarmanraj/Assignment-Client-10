@@ -14,6 +14,16 @@ const nextConfig = {
         hostname: "randomuser.me",
         pathname: "**",
       },
+       {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        pathname: "**",
+      },
+       {
+        protocol: "https",
+        hostname: "www.qidu.info",
+        pathname: "**",
+      },
     ]
    }
 };

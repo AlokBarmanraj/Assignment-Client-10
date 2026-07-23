@@ -1,188 +1,143 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  Avatar,
+  AlertDialog,
   Button,
   Card,
   Chip,
-  Input,
+  Spinner,
 } from "@heroui/react";
 
-import {
-  FaEdit,
-  FaEye,
-  FaSearch,
-  FaTrash,
-  FaUserPlus,
-  FaUsers,
-  FaUserMd,
-  FaUserShield,
-} from "react-icons/fa";
+import Image from "next/image";
+import { FaEye, FaTrash, FaUsers } from "react-icons/fa";
+import { toast } from "react-toastify";
 
-export default function ManagesUsersPage() {
-  const [users] = useState([
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john@gmail.com",
-      role: "Patient",
-      status: "Active",
-      image: "https://i.pravatar.cc/150?img=1",
-    },
-    {
-      id: 2,
-      name: "Dr. Sarah",
-      email: "sarah@gmail.com",
-      role: "Doctor",
-      status: "Pending",
-      image: "https://i.pravatar.cc/150?img=2",
-    },
-    {
-      id: 3,
-      name: "Admin",
-      email: "admin@gmail.com",
-      role: "Admin",
-      status: "Active",
-      image: "https://i.pravatar.cc/150?img=3",
-    },
-    {
-      id: 4,
-      name: "Alex Smith",
-      email: "alex@gmail.com",
-      role: "Patient",
-      status: "Blocked",
-      image: "https://i.pravatar.cc/150?img=4",
-    },
-  ]);
+export default function ManageUsersPage() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const roleColor = {
-    Admin: "danger",
-    Doctor: "primary",
-    Patient: "success",
+  // Load Users
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/managesUsers`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
+
+  // Delete User
+  const handleDeleteUser = async (id) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/managesUsers/${id}`,
+        {
+          method: "DELETE",
+        },
+      );
+
+      const data = await res.json();
+
+      if (data.deletedCount > 0) {
+        setUsers((prev) => prev.filter((user) => user._id !== id));
+
+        toast.success("User deleted successfully");
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to delete user");
+    }
   };
 
-  const statusColor = {
-    Active: "success",
-    Pending: "warning",
-    Blocked: "danger",
-  };
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen p-4 md:p-8">
 
       {/* Header */}
-      <div className="flex flex-col lg:flex-row justify-between gap-5 items-center mb-8">
 
-        <div>
-          <h1 className="text-3xl md:text-4xl font-bold">
-            Manage Users
-          </h1>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold">
+          Manage Users
+        </h1>
 
-          <p className="text-gray-500 mt-2">
-            Manage all users admins.
-          </p>
-        </div>
-
-        <Button
-          color="primary"
-          startContent={<FaUserPlus />}
-        >
-          Add User
-        </Button>
+        <p className="mt-2 text-default-500">
+          Manage all registered users.
+        </p>
       </div>
 
-      {/* Summary Cards */}
+      {/* Summary */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
-
+      <div className="mb-8">
         <Card className="p-6">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <div>
               <p>Total Users</p>
+
               <h2 className="text-3xl font-bold">
                 {users.length}
               </h2>
             </div>
 
-            <FaUsers className="text-4xl text-blue-600" />
+            <FaUsers className="text-4xl text-blue-500" />
           </div>
         </Card>
-
-        <Card className="p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p>Doctors</p>
-              <h2 className="text-3xl font-bold">12</h2>
-            </div>
-
-            <FaUserMd className="text-4xl text-green-600" />
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p>Patients</p>
-              <h2 className="text-3xl font-bold">320</h2>
-            </div>
-
-            <FaUsers className="text-4xl text-purple-600" />
-          </div>
-        </Card>
-
-        <Card className="p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p>Admins</p>
-              <h2 className="text-3xl font-bold">2</h2>
-            </div>
-
-            <FaUserShield className="text-4xl text-red-600" />
-          </div>
-        </Card>
-
       </div>
 
-      {/* Search */}
+      {/* Desktop */}
 
-
-      {/* Desktop Table */}
-
-      <Card className="hidden lg:block overflow-x-auto">
-
+      <Card className="hidden overflow-x-auto p-4 lg:block">
         <table className="w-full">
-
           <thead>
-            <tr>
-
-              <th className="text-left p-4">User</th>
+            <tr className="border-b">
+              <th className="p-4 text-left">User</th>
               <th>Email</th>
-              <th>Role</th>
               <th>Status</th>
-              <th className="text-center">Actions</th>
-
+              <th className="text-center">
+                Actions
+              </th>
             </tr>
           </thead>
 
           <tbody>
-
             {users.map((user) => (
-
               <tr
-                key={user.id}
+                key={user._id}
                 className="border-b"
               >
-
                 <td className="p-4">
                   <div className="flex items-center gap-3">
 
-                    <Avatar src={user.image} />
+                    <Image
+                      src={
+                        user.image ||
+                        "https://i.pravatar.cc/150?img=1"
+                      }
+                      alt={user.name}
+                      width={50}
+                      height={50}
+                      className="rounded-full object-cover"
+                    />
 
                     <div>
                       <h2 className="font-semibold">
                         {user.name}
                       </h2>
+
+                      <p className="text-sm text-default-500">
+                        {user.phone || "No Phone"}
+                      </p>
                     </div>
 
                   </div>
@@ -190,61 +145,108 @@ export default function ManagesUsersPage() {
 
                 <td>{user.email}</td>
 
+
                 <td>
-                  <Chip color={roleColor[user.role]}>
-                    {user.role}
+                  <Chip color="success">
+                    Active
                   </Chip>
                 </td>
 
                 <td>
-                  <Chip color={statusColor[user.status]}>
-                    {user.status}
-                  </Chip>
-                </td>
-
-                <td>
-
                   <div className="flex justify-center gap-2">
 
-                    <Button isIconOnly color="primary">
+                    <Button
+                      isIconOnly
+                      color="primary"
+                    >
                       <FaEye />
                     </Button>
 
-                    <Button isIconOnly color="warning">
-                      <FaEdit />
-                    </Button>
+                    <AlertDialog>
+                      <Button
+                        isIconOnly
+                        color="danger"
+                      >
+                        <FaTrash />
+                      </Button>
 
-                    <Button isIconOnly color="danger">
-                      <FaTrash />
-                    </Button>
+                      <AlertDialog.Backdrop>
+                        <AlertDialog.Container>
+                          <AlertDialog.Dialog className="sm:max-w-[400px]">
+
+                            <AlertDialog.CloseTrigger />
+
+                            <AlertDialog.Header>
+
+                              <AlertDialog.Icon status="danger" />
+
+                              <AlertDialog.Heading>
+                                Delete User?
+                              </AlertDialog.Heading>
+
+                            </AlertDialog.Header>
+
+                            <AlertDialog.Body>
+                              This user will be permanently
+                              removed.
+                            </AlertDialog.Body>
+
+                            <AlertDialog.Footer>
+
+                              <Button
+                                slot="close"
+                                variant="flat"
+                              >
+                                Cancel
+                              </Button>
+
+                              <Button
+                                slot="close"
+                                color="danger"
+                                onPress={() =>
+                                  handleDeleteUser(
+                                    user._id,
+                                  )
+                                }
+                              >
+                                Delete
+                              </Button>
+
+                            </AlertDialog.Footer>
+
+                          </AlertDialog.Dialog>
+                        </AlertDialog.Container>
+                      </AlertDialog.Backdrop>
+                    </AlertDialog>
 
                   </div>
-
                 </td>
-
               </tr>
-
             ))}
-
           </tbody>
-
         </table>
-
       </Card>
 
-      {/* Mobile Cards */}
+      {/* Mobile */}
 
       <div className="grid gap-5 lg:hidden">
 
         {users.map((user) => (
-
-          <Card key={user.id} className="p-5">
-
+          <Card
+            key={user._id}
+            className="p-5"
+          >
             <div className="flex items-center gap-4">
 
-              <Avatar
-                src={user.image}
-                className="w-14 h-14"
+              <Image
+                src={
+                  user.image ||
+                  "https://i.pravatar.cc/150?img=1"
+                }
+                alt={user.name}
+                width={60}
+                height={60}
+                className="rounded-full object-cover"
               />
 
               <div>
@@ -252,52 +254,95 @@ export default function ManagesUsersPage() {
                   {user.name}
                 </h2>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-default-500">
                   {user.email}
                 </p>
               </div>
 
             </div>
 
-            <div className="flex justify-between mt-5">
+            <div className="mt-4 space-y-2">
 
-              <Chip color={roleColor[user.role]}>
+              <p>
+                <strong>Role:</strong>{" "}
                 {user.role}
-              </Chip>
+              </p>
 
-              <Chip color={statusColor[user.status]}>
-                {user.status}
-              </Chip>
-
-            </div>
-
-            <div className="grid grid-cols-3 gap-3 mt-5">
-
-              <Button
-                color="primary"
-                startContent={<FaEye />}
-              >
-                View
-              </Button>
-
-              <Button
-                color="warning"
-                startContent={<FaEdit />}
-              >
-                Edit
-              </Button>
-
-              <Button
-                color="danger"
-                startContent={<FaTrash />}
-              >
-                Delete
-              </Button>
+              <p>
+                <strong>Phone:</strong>{" "}
+                {user.phone || "N/A"}
+              </p>
 
             </div>
 
+            <div className="mt-4">
+              <Chip color="success">
+                Active
+              </Chip>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-3">
+
+              <Button color="primary">
+                <FaEye />
+              </Button>
+
+              <AlertDialog>
+                <Button color="danger">
+                  Delete
+                </Button>
+
+                <AlertDialog.Backdrop>
+                  <AlertDialog.Container>
+                    <AlertDialog.Dialog>
+
+                      <AlertDialog.CloseTrigger />
+
+                      <AlertDialog.Header>
+
+                        <AlertDialog.Icon status="danger" />
+
+                        <AlertDialog.Heading>
+                          Delete User?
+                        </AlertDialog.Heading>
+
+                      </AlertDialog.Header>
+
+                      <AlertDialog.Body>
+                        This action cannot be
+                        undone.
+                      </AlertDialog.Body>
+
+                      <AlertDialog.Footer>
+
+                        <Button
+                          slot="close"
+                          variant="flat"
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          slot="close"
+                          color="danger"
+                          onPress={() =>
+                            handleDeleteUser(
+                              user._id,
+                            )
+                          }
+                        >
+                          Delete
+                        </Button>
+
+                      </AlertDialog.Footer>
+
+                    </AlertDialog.Dialog>
+                  </AlertDialog.Container>
+                </AlertDialog.Backdrop>
+              </AlertDialog>
+
+            </div>
           </Card>
-
         ))}
 
       </div>
