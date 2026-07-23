@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import { FaEye, FaTrash, FaUsers } from "react-icons/fa";
 import { toast } from "react-toastify";
+import UserProfileView from "@/components/userProfileView/User";
 
 export default function ManageUsersPage() {
   const [users, setUsers] = useState([]);
@@ -155,12 +156,13 @@ export default function ManageUsersPage() {
                 <td>
                   <div className="flex justify-center gap-2">
 
-                    <Button
+                    {/* <Button
                       isIconOnly
                       color="primary"
                     >
                       <FaEye />
-                    </Button>
+                    </Button> */}
+                    <UserProfileView user={user}></UserProfileView>
 
                     <AlertDialog>
                       <Button
