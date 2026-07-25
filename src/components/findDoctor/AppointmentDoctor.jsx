@@ -24,13 +24,31 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
-export default function AppointmentDoctor() {
+export default function AppointmentDoctor({ doctorData }) {
+  console.log("doctorData:", doctorData);
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    // const formData = new FormData(e.currentTarget);
+    // const data = Object.fromEntries(formData.entries());
+    
+const formData = new FormData(e.currentTarget);
 
+const data = {
+  ...Object.fromEntries(formData.entries()),
+
+  doctorId: doctorData._id,
+  doctorName: doctorData.doctorName,
+  specialization: doctorData.specialization,
+  qualifications: doctorData.qualifications,
+  experience: doctorData.experience,
+  consultationFee: doctorData.consultationFee,
+  hospitalName: doctorData.hospitalName,
+  doctorImage: doctorData.profileImage,
+
+  status: "Pending",
+  createdAt: new Date(),
+};
 
     try {
       const res = await fetch(
