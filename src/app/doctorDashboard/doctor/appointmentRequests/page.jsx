@@ -18,7 +18,7 @@ export default function AppointmentRequestsPage() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/appointmentRequests`,
         {
           cache: "no-store",
-        }
+        },
       );
 
       const data = await res.json();
@@ -47,7 +47,7 @@ export default function AppointmentRequestsPage() {
           body: JSON.stringify({
             status: "Accepted",
           }),
-        }
+        },
       );
 
       const result = await res.json();
@@ -73,7 +73,7 @@ export default function AppointmentRequestsPage() {
           body: JSON.stringify({
             status: "Rejected",
           }),
-        }
+        },
       );
 
       const result = await res.json();
@@ -86,9 +86,8 @@ export default function AppointmentRequestsPage() {
     }
   };
 
-  // Complete Appointment
   const handleComplete = (id) => {
-    router.push(`/dashboard/doctor/prescriptionManagement/${id}`);
+    router.push(`/doctorDashboard/doctor/prescriptionManagement/${id}`);
   };
 
   if (loading) {
@@ -105,9 +104,7 @@ export default function AppointmentRequestsPage() {
         {/* Header */}
         <div className="p-6 border-b">
           <h2 className="text-2xl font-bold">Appointment Requests</h2>
-          <p className="text-gray-500 text-sm">
-            Manage patient appointments
-          </p>
+          <p className="text-gray-500 text-sm">Manage patient appointments</p>
         </div>
 
         {/* Table */}
@@ -155,10 +152,10 @@ export default function AppointmentRequestsPage() {
                         app.status === "Accepted"
                           ? "bg-green-100 text-green-700"
                           : app.status === "Rejected"
-                          ? "bg-red-100 text-red-700"
-                          : app.status === "Completed"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-yellow-100 text-yellow-700"
+                            ? "bg-red-100 text-red-700"
+                            : app.status === "Completed"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-yellow-100 text-yellow-700"
                       }`}
                     >
                       {app.status || "Pending"}
@@ -189,12 +186,13 @@ export default function AppointmentRequestsPage() {
                         Reject
                       </Button>
 
+
                       <Button
                         size="sm"
                         color="primary"
                         startContent={<FaCheckCircle />}
-                        // onPress={() => handleComplete(app._id)}
-                        // isDisabled={app.status !== "Accepted"}
+                        onPress={() => handleComplete(app._id)}
+                        isDisabled={app.status !== "Accepted"}
                       >
                         Complete
                       </Button>
@@ -205,10 +203,7 @@ export default function AppointmentRequestsPage() {
 
               {appointments.length === 0 && (
                 <tr>
-                  <td
-                    colSpan={5}
-                    className="text-center py-10 text-gray-500"
-                  >
+                  <td colSpan={5} className="text-center py-10 text-gray-500">
                     No Appointment Found
                   </td>
                 </tr>

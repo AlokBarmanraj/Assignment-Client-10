@@ -1,7 +1,5 @@
 "use client";
 import DoctorDashboardCard from "@/components/dashboard/doctor/DoctorDashboardCard";
-import DoctorTable from "@/components/dashboard/doctor/DoctorTable";
-import DashboardCards from "@/components/dashboard/patient/DashboardCards";
 import { useSession } from "@/lib/auth-client";
 import { Spinner } from "@heroui/react";
 import React from "react";
@@ -23,9 +21,10 @@ const DoctorDashboardPage = () => {
     <div className="mt-2.5 pl-2.5">
       <h1 className="font-bold text-3xl">Welcome, {user?.name} ! </h1>
       <DoctorDashboardCard></DoctorDashboardCard>
-      <DoctorTable></DoctorTable>
     </div>
   );
 };
 
 export default DoctorDashboardPage;
+
+

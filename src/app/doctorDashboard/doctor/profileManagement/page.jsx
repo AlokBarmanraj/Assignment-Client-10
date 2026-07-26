@@ -1,39 +1,33 @@
 "use client";
 
-import Image from "next/image";
-import React from "react";
-import { Button } from "@heroui/react";
+import { useState } from "react";
+import { Avatar, Button, Card, Chip } from "@heroui/react";
 import {
+  FaCamera,
   FaEnvelope,
-  FaPhoneAlt,
+  FaPhone,
   FaMapMarkerAlt,
-  FaUser,
-  FaBirthdayCake,
-  FaVenusMars,
-  FaEdit,
-  FaLock,
+  FaCalendarAlt,
 } from "react-icons/fa";
+import Image from "next/image";
 
-const ProfileManagementPage = () => {
-  const user = {
+export default function ProfilePage() {
+  const [user] = useState({
     name: "John Doe",
-    email: "john@example.com",
+    email: "john@gmail.com",
     phone: "+8801712345678",
-    address: "Dhaka, Bangladesh",
-    gender: "Male",
-    dob: "12 March 1998",
     role: "Patient",
-    image: "https://randomuser.me/api/portraits/men/31.jpg",
-  };
+    address: "Dhaka, Bangladesh",
+    joined: "12 January 2025",
+    bio: "Passionate about maintaining a healthy lifestyle and regularly booking doctor appointments.",
+    image: "https://randomuser.me/api/portraits/men/37.jpg",
+  });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg overflow-hidden border">
-
-        <div className="p-8 flex flex-col lg:flex-row gap-10">
-
-          {/* Left */}
-          <div className="lg:w-1/3 flex flex-col items-center">
+    <div className="min-h-screen bg-gray-100 dark:bg-zinc-950 p-6 flex justify-center">
+      <Card className="w-full max-w-3xl p-8 bg-white dark:bg-zinc-900 shadow-xl rounded-2xl">
+        {/* Avatar Section */}
+        <div className="flex flex-col items-center">
             <Image
               src={user.image}
               alt={user.name}
@@ -42,90 +36,62 @@ const ProfileManagementPage = () => {
               className="rounded-full border-4 border-blue-500 object-cover"
             />
 
-            <h2 className="text-2xl font-bold mt-5">
-              {user.name}
-            </h2>
+          <Button size="sm" color="primary" className="mt-4">
+            <FaCamera className="mr-2" />
+            Change Photo
+          </Button>
 
-            <span className="mt-2 bg-blue-100 text-blue-700 px-4 py-1 rounded-full text-sm font-medium">
-              {user.role}
-            </span>
+          <h1 className="text-3xl font-bold mt-5">{user.name}</h1>
 
-            <div className="w-full mt-8 space-y-3">
-              <Button
-                color="primary"
-                className="w-full"
-                startContent={<FaEdit />}
-              >
-                Edit Profile
-              </Button>
-
-              <Button
-                variant="bordered"
-                className="w-full"
-                startContent={<FaLock />}
-              >
-                Change Password
-              </Button>
-            </div>
-          </div>
-
-          {/* Right */}
-          <div className="flex-1">
-            <h3 className="text-3xl font-bold mb-8">
-              Personal Information
-            </h3>
-
-            <div className="grid md:grid-cols-2 gap-6">
-
-              <Info icon={<FaEnvelope />} label="Email" value={user.email} />
-
-              <Info icon={<FaPhoneAlt />} label="Phone" value={user.phone} />
-
-              <Info
-                icon={<FaMapMarkerAlt />}
-                label="Address"
-                value={user.address}
-              />
-
-              <Info
-                icon={<FaVenusMars />}
-                label="Gender"
-                value={user.gender}
-              />
-
-              <Info
-                icon={<FaBirthdayCake />}
-                label="Date of Birth"
-                value={user.dob}
-              />
-
-              <Info
-                icon={<FaUser />}
-                label="Account Type"
-                value={user.role}
-              />
-
-            </div>
-          </div>
-
+          <Chip color="primary" className="mt-3">
+            {user.role}
+          </Chip>
         </div>
 
-      </div>
-    </div>
-  );
-};
+        <div className="my-8 border-t border-gray-200 dark:border-zinc-700"></div>
 
-function Info({ icon, label, value }) {
-  return (
-    <div className="border rounded-xl p-5 hover:shadow-md transition">
-      <div className="flex items-center gap-3 mb-2">
-        <span className="text-blue-500 text-xl">{icon}</span>
-        <h4 className="font-semibold">{label}</h4>
-      </div>
+        {/* Info Section */}
+        <div className="space-y-6 text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-4">
+            <FaEnvelope className="text-primary text-xl" />
+            <div>
+              <p className="text-sm text-gray-500">Email</p>
+              <p>{user.email}</p>
+            </div>
+          </div>
 
-      <p className="text-gray-600 dark:text-gray-300">{value}</p>
+          <div className="flex items-center gap-4">
+            <FaPhone className="text-primary text-xl" />
+            <div>
+              <p className="text-sm text-gray-500">Phone</p>
+              <p>{user.phone}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <FaMapMarkerAlt className="text-primary text-xl" />
+            <div>
+              <p className="text-sm text-gray-500">Address</p>
+              <p>{user.address}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <FaCalendarAlt className="text-primary text-xl" />
+            <div>
+              <p className="text-sm text-gray-500">Joined</p>
+              <p>{user.joined}</p>
+            </div>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-xl mb-2">About</h2>
+            <p className="text-gray-600 dark:text-gray-400 leading-7">
+              {user.bio}
+            </p>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 }
-
-export default ProfileManagementPage;

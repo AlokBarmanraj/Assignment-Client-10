@@ -49,11 +49,6 @@ const navItems = [
     label: "All Prescription",
   },
   {
-    icon: PencilToSquare,
-    href: "/doctorDashboard/doctor/prescriptionManagement",
-    label: "Prescription Management",
-  },
-  {
     icon: Person,
     href: "/doctorDashboard/doctor/profileManagement",
     label: "Profile",

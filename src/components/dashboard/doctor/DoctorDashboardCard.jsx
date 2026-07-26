@@ -1,90 +1,171 @@
 "use client";
 
+import { FaUsers, FaCalendarCheck, FaStar } from "react-icons/fa";
+
 import {
-  FaUsers,
-  FaCalendarCheck,
-  FaStar,
-} from "react-icons/fa";
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  Legend,
+} from "recharts";
 
 const statsData = [
   {
     title: "Total Patients",
     value: 1250,
     icon: FaUsers,
-    color: "#3b82f6", // Blue
-    progress: "80%",
+    color: "#3b82f6",
   },
   {
     title: "Today's Appointments",
     value: 24,
     icon: FaCalendarCheck,
-    color: "#10b981", // Green
-    progress: "65%",
+    color: "#10b981",
   },
   {
     title: "Reviews Received",
     value: 356,
     icon: FaStar,
-    color: "#f59e0b", // Yellow
-    progress: "90%",
+    color: "#f59e0b",
   },
 ];
 
-export default function DoctorDashboardCard() {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 w-full mt-4">
-      {statsData.map((item, index) => {
-        const Icon = item.icon;
+const lineData = [
+  { day: "Mon", appointment: 4 },
+  { day: "Tue", appointment: 8 },
+  { day: "Wed", appointment: 6 },
+  { day: "Thu", appointment: 10 },
+  { day: "Fri", appointment: 7 },
+  { day: "Sat", appointment: 11 },
+  { day: "Sun", appointment: 9 },
+];
 
-        return (
-          <div
-            key={index}
-            className="
-              rounded-2xl
-              border
-              border-zinc-200
-              dark:border-zinc-800
-              bg-zinc-50
-              dark:bg-zinc-900
-              p-6
-              shadow-sm
-              hover:shadow-lg
-              transition-all
-              duration-300
-            "
-          >
-            <div className="flex items-start justify-between">
-              <div
-                className="w-16 h-16 rounded-full border-4 flex items-center justify-center"
-                style={{ borderColor: item.color }}
-              >
-                <Icon
-                  size={28}
-                  style={{ color: item.color }}
-                />
+const pieData = [
+  { name: "Completed", value: 45 },
+  { name: "Pending", value: 20 },
+  { name: "Cancelled", value: 10 },
+];
+
+const COLORS = ["#10b981", "#3b82f6", "#ef4444"];
+
+const barData = [
+  { month: "Jan", patient: 20 },
+  { month: "Feb", patient: 30 },
+  { month: "Mar", patient: 40 },
+  { month: "Apr", patient: 55 },
+  { month: "May", patient: 70 },
+  { month: "Jun", patient: 82 },
+];
+
+export default function DoctorDashboard() {
+  return (
+    <div className="space-y-8">
+      {/* Cards */}
+
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {statsData.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <div
+              key={index}
+              className="bg-white dark:bg-zinc-900 rounded-2xl shadow border dark:border-zinc-800 p-6"
+            >
+              <div className="flex justify-between items-center">
+                <div
+                  className="w-16 h-16 rounded-full border-4 flex items-center justify-center"
+                  style={{
+                    borderColor: item.color,
+                  }}
+                >
+                  <Icon size={30} color={item.color} />
+                </div>
+
+                <h2 className="text-4xl font-bold">{item.value}</h2>
               </div>
 
-              <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-                {item.value}
-              </h2>
+              <p className="mt-6 text-lg text-zinc-500">{item.title}</p>
             </div>
+          );
+        })}
+      </div>
 
-            <h3 className="mt-6 text-lg font-medium text-zinc-600 dark:text-zinc-400">
-              {item.title}
-            </h3>
+      {/* First Row */}
 
-            <div className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-700 rounded-full mt-4 overflow-hidden">
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: item.progress,
-                  backgroundColor: item.color,
-                }}
+      <div className="grid lg:grid-cols-2 gap-6">
+        {/* Line Chart */}
+
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow">
+          <h2 className="text-xl font-bold mb-5">Weekly Appointment Trend</h2>
+
+          <ResponsiveContainer width="100%" height={320}>
+            <LineChart data={lineData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+
+              <Line
+                type="monotone"
+                dataKey="appointment"
+                stroke="#3b82f6"
+                strokeWidth={3}
               />
-            </div>
-          </div>
-        );
-      })}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Pie Chart */}
+
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow">
+          <h2 className="text-xl font-bold mb-5">Appointment Status</h2>
+
+          <ResponsiveContainer width="100%" height={320}>
+            <PieChart>
+              <Pie data={pieData} dataKey="value" outerRadius={100} label>
+                {pieData.map((item, index) => (
+                  <Cell key={index} fill={COLORS[index]} />
+                ))}
+              </Pie>
+
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Bar Chart */}
+
+      <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow">
+        <h2 className="text-xl font-bold mb-5">Monthly Patient Growth</h2>
+
+        <ResponsiveContainer width="100%" height={350}>
+          <BarChart data={barData}>
+            <CartesianGrid strokeDasharray="3 3" />
+
+            <XAxis dataKey="month" />
+
+            <YAxis />
+
+            <Tooltip />
+
+            <Legend />
+
+            <Bar dataKey="patient" fill="#10b981" radius={[8, 8, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
