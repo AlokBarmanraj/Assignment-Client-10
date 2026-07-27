@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Check } from "@gravity-ui/icons";
+
 import {
   Button,
   Card,
@@ -22,42 +24,62 @@ import {
   FaVenusMars,
   FaBirthdayCake,
 } from "react-icons/fa";
+
 import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
 
 export default function AppointmentDoctor({ doctorData }) {
-  console.log("doctorData:", doctorData);
+  const [user, setUser] = useState(null);
+
+  // Get Logged In User
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await authClient.getSession();
+
+      if (data?.user) {
+        setUser(data.user);
+      }
+    };
+
+    getUser();
+  }, []);
+
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    // const formData = new FormData(e.currentTarget);
-    // const data = Object.fromEntries(formData.entries());
-    
-const formData = new FormData(e.currentTarget);
+    const formData = new FormData(e.currentTarget);
 
-const data = {
-  ...Object.fromEntries(formData.entries()),
+    const data = {
+      ...Object.fromEntries(formData.entries()),
 
-  doctorId: doctorData._id,
-  doctorName: doctorData.doctorName,
-  specialization: doctorData.specialization,
-  qualifications: doctorData.qualifications,
-  experience: doctorData.experience,
-  consultationFee: doctorData.consultationFee,
-  hospitalName: doctorData.hospitalName,
-  doctorImage: doctorData.profileImage,
+      // User Info
+      patientName: user?.name,
+      email: user?.email,
 
-  status: "Pending",
-  createdAt: new Date(),
-};
+      // Doctor Info
+      doctorId: doctorData._id,
+      doctorName: doctorData.doctorName,
+      specialization: doctorData.specialization,
+      qualifications: doctorData.qualifications,
+      experience: doctorData.experience,
+      consultationFee: doctorData.consultationFee,
+      hospitalName: doctorData.hospitalName,
+      doctorImage: doctorData.profileImage,
+
+      status: "Pending",
+      createdAt: new Date(),
+    };
 
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/appointments`,
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify(data),
         },
       );
@@ -66,10 +88,12 @@ const data = {
 
       if (result.insertedId) {
         toast.success("Doctor Appointment successful");
+
         e.target.reset();
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
       toast.error("Something went wrong!");
     }
   };
@@ -91,6 +115,7 @@ const data = {
           onSubmit={onSubmit}
         >
           {/* Patient Name */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaUser />
@@ -98,35 +123,37 @@ const data = {
             </Label>
 
             <TextField isRequired name="patientName">
-              <Input placeholder="Enter your full name" />
+              <Input
+                value={user?.name || ""}
+                readOnly
+                placeholder="Loading user..."
+              />
+
               <FieldError />
             </TextField>
           </div>
 
           {/* Email */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaEnvelope />
               Email
             </Label>
 
-            <TextField
-              isRequired
-              name="email"
-              type="email"
-              validate={(value) => {
-                if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-                  return "Please enter a valid email address";
-                }
-                return null;
-              }}
-            >
-              <Input placeholder="john@example.com" />
+            <TextField isRequired name="email" type="email">
+              <Input
+                value={user?.email || ""}
+                readOnly
+                placeholder="Loading email..."
+              />
+
               <FieldError />
             </TextField>
           </div>
 
           {/* Phone */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaPhone />
@@ -140,18 +167,19 @@ const data = {
                 if (value.length < 11) {
                   return "Phone number must be 11 digits";
                 }
+
                 return null;
               }}
             >
               <Input placeholder="01XXXXXXXXX" />
+
               <FieldError />
             </TextField>
           </div>
 
           {/* Gender & Age */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Gender */}
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <FaVenusMars />
@@ -162,51 +190,36 @@ const data = {
                 name="gender"
                 required
                 defaultValue=""
-                className="w-full rounded-xl border border-default-300 bg-white dark:bg-zinc-900 text-black dark:text-white px-4 py-3 outline-none focus:border-primary transition-colors"
+                className="w-full rounded-xl border border-default-300 bg-white dark:bg-zinc-900 px-4 py-3"
               >
                 <option value="" disabled>
                   Select Gender
                 </option>
+
                 <option value="Male">Male</option>
+
                 <option value="Female">Female</option>
+
                 <option value="Other">Other</option>
               </select>
             </div>
 
-            {/* Age */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <FaBirthdayCake />
                 Age
               </Label>
 
-              <TextField
-                isRequired
-                name="age"
-                validate={(value) => {
-                  if (!value) return "Age is required";
+              <TextField isRequired name="age">
+                <Input type="number" placeholder="Enter your age" />
 
-                  const age = Number(value);
-
-                  if (age < 1 || age > 120) {
-                    return "Please enter a valid age";
-                  }
-
-                  return null;
-                }}
-              >
-                <Input
-                  type="number"
-                  min="1"
-                  max="120"
-                  placeholder="Enter your age"
-                />
                 <FieldError />
               </TextField>
             </div>
           </div>
 
           {/* Appointment Date */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaCalendarAlt />
@@ -215,11 +228,13 @@ const data = {
 
             <TextField isRequired name="appointmentDate" type="date">
               <Input />
+
               <FieldError />
             </TextField>
           </div>
 
-          {/* Preferred Time */}
+          {/* Time */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaClock />
@@ -228,11 +243,13 @@ const data = {
 
             <TextField isRequired name="appointmentTime" type="time">
               <Input />
+
               <FieldError />
             </TextField>
           </div>
 
-          {/* Problem Description */}
+          {/* Problem */}
+
           <div className="space-y-2">
             <Label className="flex items-center gap-2">
               <FaNotesMedical />
@@ -243,7 +260,7 @@ const data = {
               name="problem"
               rows="5"
               required
-              className="w-full rounded-xl border border-default-300 bg-transparent px-4 py-3 outline-none focus:border-primary"
+              className="w-full rounded-xl border px-4 py-3"
               placeholder="Describe your health problem..."
             />
 
@@ -251,6 +268,7 @@ const data = {
           </div>
 
           {/* Buttons */}
+
           <div className="flex gap-4 pt-4">
             <Button color="primary" type="submit">
               <Check />

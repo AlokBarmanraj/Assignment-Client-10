@@ -3,8 +3,11 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Input } from "@heroui/react";
 import { FaPlus, FaFilePrescription } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function PrescriptionManagementPage({ appointment }) {
+  const [loading, setLoading] = useState(false);
+
   const [form, setForm] = useState({
     patientName: "",
     age: "",
@@ -15,9 +18,11 @@ export default function PrescriptionManagementPage({ appointment }) {
 
   useEffect(() => {
     if (appointment) {
+      console.log("Appointment:", appointment);
+
       setForm({
-        patientName: appointment?.patientName || "",
-        age: appointment?.age || "",
+        patientName: appointment.patientName || "",
+        age: appointment.age || "",
         diagnosis: "",
         medicines: "",
         advice: "",
@@ -32,25 +37,61 @@ export default function PrescriptionManagementPage({ appointment }) {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const prescriptionData = {
-      appointmentId: appointment?._id,
+    setLoading(true);
 
-      patientName: form.patientName,
+    try {
+      const prescriptionData = {
+        appointmentId: appointment._id,
+        patientName: appointment.patientName,
+        patientEmail: appointment.email,
 
-      age: form.age,
+        doctorName: appointment.doctorName,
+        doctorEmail: "",
 
-      diagnosis: form.diagnosis,
+        age: appointment.age,
+        diagnosis: form.diagnosis,
+        medicines: form.medicines,
+        advice: form.advice,
+        createdAt: new Date(),
+      };
 
-      medicines: form.medicines,
+      console.log("Prescription Data:", prescriptionData);
 
-      advice: form.advice,
-    };
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/prescriptions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(prescriptionData),
+        },
+      );
 
-    console.log("Prescription Data:", prescriptionData);
+      const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to create prescription");
+      }
+
+      toast.success("Prescription Created Successfully");
+
+      setForm({
+        patientName: appointment?.patientName || "",
+        age: appointment?.age || "",
+        diagnosis: "",
+        medicines: "",
+        advice: "",
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -58,24 +99,19 @@ export default function PrescriptionManagementPage({ appointment }) {
       <Card className="p-6 rounded-2xl shadow">
         <div className="flex items-center gap-3 mb-6">
           <FaFilePrescription className="text-2xl text-blue-500" />
-
           <h1 className="text-2xl font-bold">Prescription Management</h1>
         </div>
 
         <form onSubmit={handleSubmit}>
-          {/* Patient Information */}
-
           <div className="mb-6">
             <h2 className="font-semibold text-lg mb-3">Patient Information</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <h3 className="font-bold">Patient Name: {form.patientName}</h3>
-              <h3 className="font-bold">Patient Age: {form.age}</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <h3 className="font-bold">Patient Name : {form.patientName}</h3>
 
+              <h3 className="font-bold">Patient Age : {form.age}</h3>
             </div>
           </div>
-
-          {/* Prescription Writing Area */}
 
           <div className="border rounded-xl p-5">
             <h2 className="font-semibold text-lg mb-4">Write Prescription</h2>
@@ -84,7 +120,7 @@ export default function PrescriptionManagementPage({ appointment }) {
               <Input
                 label="Diagnosis"
                 name="diagnosis"
-                placeholder="Enter patient's diagnosis"
+                placeholder="Enter Diagnosis"
                 value={form.diagnosis}
                 onChange={handleChange}
               />
@@ -93,21 +129,17 @@ export default function PrescriptionManagementPage({ appointment }) {
                 <label className="text-sm font-medium">Medicines</label>
 
                 <textarea
+                  rows={6}
                   name="medicines"
-                  rows={5}
-                  placeholder="
-Example:
-
-1. Paracetamol 500mg
-   - 1 tablet after meal
-   - Twice daily
-
-2. Antibiotic
-   - 1 tablet morning & night
-                  "
-                  className="w-full mt-2 p-3 border rounded-xl focus:outline-none"
                   value={form.medicines}
                   onChange={handleChange}
+                  className="w-full mt-2 p-3 border rounded-xl focus:outline-none"
+                  placeholder={`1. Napa 500mg
+- 1 tablet after meal
+- Twice daily
+
+2. Cefixime 200mg
+- Morning & Night`}
                 />
               </div>
 
@@ -115,12 +147,12 @@ Example:
                 <label className="text-sm font-medium">Doctor Advice</label>
 
                 <textarea
+                  rows={6}
                   name="advice"
-                  rows={5}
-                  placeholder="Write patient's advice..."
-                  className="w-full mt-2 p-3 border rounded-xl focus:outline-none"
                   value={form.advice}
                   onChange={handleChange}
+                  className="w-full mt-2 p-3 border rounded-xl focus:outline-none"
+                  placeholder="Write doctor's advice..."
                 />
               </div>
             </div>
@@ -131,8 +163,9 @@ Example:
             color="primary"
             className="mt-6"
             startContent={<FaPlus />}
+            isLoading={loading}
           >
-            Create Prescription
+            {loading ? "Creating..." : "Create Prescription"}
           </Button>
         </form>
       </Card>

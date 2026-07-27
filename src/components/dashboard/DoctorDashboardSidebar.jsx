@@ -39,16 +39,6 @@ const navItems = [
     label: "Appointment Requests",
   },
   {
-    icon: CircleCheck,
-    href: "/doctorDashboard/doctor/appointmentComplete",
-    label: "Appointment Complete",
-  },
-  {
-    icon: FileText,
-    href: "/doctorDashboard/doctor/allPrescription",
-    label: "All Prescription",
-  },
-  {
     icon: Person,
     href: "/doctorDashboard/doctor/profileManagement",
     label: "Profile",

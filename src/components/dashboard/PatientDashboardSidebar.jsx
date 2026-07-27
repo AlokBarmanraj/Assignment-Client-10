@@ -7,10 +7,12 @@ import {
   Heart,
   CreditCard,
   Person,
+  FileText,
 } from "@gravity-ui/icons";
 import { Avatar, Button, Drawer } from "@heroui/react";
 import { FiSidebar } from "react-icons/fi";
 import Link from "next/link";
+import { FaFilePrescription } from "react-icons/fa";
 
 export function PatientDashboardSidebar() {
   const { data: session } = authClient.useSession();
@@ -40,6 +42,11 @@ const navItems = [
     icon: CreditCard,
     href: "/patientDashboard/patient/totalPayments",
     label: "Total Payments",
+  },
+  {
+    icon: FileText,
+    href: "/patientDashboard/patient/prescription",
+    label: "My Prescription",
   },
   {
     icon: Person,
