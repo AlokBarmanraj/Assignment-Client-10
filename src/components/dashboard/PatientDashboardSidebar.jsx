@@ -24,14 +24,9 @@ const navItems = [
     label: "Dashboard",
   },
   {
-    icon: Calendar,
-    href: "/patientDashboard/patient/upcomingAppointments",
-    label: "Upcoming Appointments",
-  },
-  {
     icon: Clock,
     href: "/patientDashboard/patient/appointmentHistory",
-    label: "Appointment History",
+    label: "My Appointment History",
   },
   {
     icon: Heart,
