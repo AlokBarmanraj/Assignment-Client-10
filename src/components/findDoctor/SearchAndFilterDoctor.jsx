@@ -21,7 +21,8 @@ const SearchAndFilterDoctor = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const data = await getDoctorList();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/findDoctors`);
+        const data = await res.json();
         setDoctors(data);
       } catch (error) {
         console.error("Failed to fetch doctors:", error);

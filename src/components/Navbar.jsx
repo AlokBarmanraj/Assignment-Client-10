@@ -13,6 +13,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 const Navbar = () => {
   const { data: session } = authClient.useSession();
+  // console.log("Session Data Is Navbar:", session,);
   const user = session?.user;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathName = usePathname();
@@ -293,13 +294,23 @@ const Navbar = () => {
             </Link>
             <hr />
 
+            {/* <Link href="/auth/login" className="font-bold">
+                  Login
+                </Link>
+                <Link href="/auth/register">
+                  <Button>Register</Button>
+                </Link> */}
+
             <li>
-              <Link href="#">Login</Link>
+              <Link href="/auth/login">Login</Link>
             </li>
 
-            <Button color="primary" className="w-full">
+            {/* <Button color="primary" className="w-full">
               Sign Up
-            </Button>
+            </Button> */}
+            <Link href="/auth/register">
+              <Button>Register</Button>
+            </Link>
           </ul>
         </div>
       )}

@@ -60,7 +60,7 @@ export default function DoctorProfileEdit({ doctor, onSuccess }) {
           <Modal.Dialog className="max-h-[90vh] sm:max-w-4xl">
             <Modal.Header>
               <Modal.Heading className="font-bold text-3xl">
-                Create Doctor Profile
+                Edit Doctor Profile
               </Modal.Heading>
               <Description>Fill in the doctor's information.</Description>
             </Modal.Header>

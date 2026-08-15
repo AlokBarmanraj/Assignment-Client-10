@@ -9,6 +9,8 @@ import {
   Input,
   Label,
   TextField,
+  Radio,
+  RadioGroup,
 } from "@heroui/react";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
@@ -29,6 +31,7 @@ const RegisterPage = () => {
       password: user.password,
       name: user.name,
       image: user.image,
+      role: user.role,
     });
     if (data) {
       toast.success("Sign Up Successfully!");
@@ -123,6 +126,31 @@ const RegisterPage = () => {
 
             <FieldError />
           </TextField>
+          <div className="flex flex-col gap-4">
+            <label>Select</label>
+            <RadioGroup
+              defaultValue="Patient"
+              name="role"
+              orientation="horizontal"
+            >
+              <Radio value="Patient">
+                <Radio.Content>
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  Patient
+                </Radio.Content>
+              </Radio>
+              <Radio value="Doctor">
+                <Radio.Content>
+                  <Radio.Control>
+                    <Radio.Indicator />
+                  </Radio.Control>
+                  Doctor
+                </Radio.Content>
+              </Radio>
+            </RadioGroup>
+          </div>
           <div className="flex items-center gap-2">
             <Button type="submit" className={"w-full"}>
               Sign Up
