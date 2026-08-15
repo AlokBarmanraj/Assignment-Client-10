@@ -309,7 +309,7 @@ const Navbar = () => {
               Sign Up
             </Button> */}
             <Link href="/auth/register">
-              <Button>Register</Button>
+              <Button color="primary" className="w-full">Register</Button>
             </Link>
           </ul>
         </div>
