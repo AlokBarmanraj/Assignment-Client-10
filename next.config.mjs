@@ -24,6 +24,16 @@ const nextConfig = {
         hostname: "www.qidu.info",
         pathname: "**",
       },
+       {
+        protocol: "https",
+        hostname: "www.lohegoxoqu.net",
+        pathname: "**",
+      },
+       {
+        protocol: "https",
+        hostname: "www.wekapumap.mobi",
+        pathname: "**",
+      },
     ]
    }
 };
