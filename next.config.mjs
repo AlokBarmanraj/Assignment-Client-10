@@ -34,6 +34,11 @@ const nextConfig = {
         hostname: "www.wekapumap.mobi",
         pathname: "**",
       },
+       {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "**",
+      },
     ]
    }
 };

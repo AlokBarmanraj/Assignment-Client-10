@@ -1,173 +1,168 @@
 "use client";
 
 import React, { useState } from "react";
-import { Avatar, Button, Dropdown, Label } from "@heroui/react";
+import { Avatar, Button, Dropdown } from "@heroui/react";
 import Image from "next/image";
 import { ThemeSwitch } from "./ThemeSwitch";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { CgProfile } from "react-icons/cg";
-import { IoChevronDown, IoLogOutOutline } from "react-icons/io5";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoLogOutOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const { data: session } = authClient.useSession();
-  // console.log("Session Data Is Navbar:", session,);
+
   const user = session?.user;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const pathName = usePathname();
+
   const handleLogOut = async () => {
-    await authClient.signOut();
+    try {
+      await authClient.signOut();
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
-  const navLink = (
-    <>
-      <li>
-        <Link
-          href="/"
-          className={`${pathName === "/" ? "font-bold underline" : " "}`}
-        >
-          HOME
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/findDoctors"
-          className={`${pathName === "/findDoctors" ? "font-bold underline" : " "}`}
-        >
-          FIND DOCTORS
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/aboutUs"
-          className={`${pathName === "/aboutUs" ? "font-bold underline" : " "}`}
-        >
-          ABOUT US
-        </Link>
-      </li>
-      <li>
-        <Link
-          href="/contactUs"
-          className={`${pathName === "/contactUs" ? "font-bold underline" : " "}`}
-        >
-          CONTACT US
-        </Link>
-      </li>
-    </>
-  );
+
+  const navLinks = [
+    {
+      label: "HOME",
+      href: "/",
+    },
+    {
+      label: "FIND DOCTORS",
+      href: "/findDoctors",
+    },
+    {
+      label: "ABOUT US",
+      href: "/aboutUs",
+    },
+    {
+      label: "CONTACT US",
+      href: "/contactUs",
+    },
+  ];
+
+  const dashboardLink = {
+    patient: "/patientDashboard/patient",
+    doctor: "/doctorDashboard/doctor",
+    admin: "/adminDashboard/admin",
+  };
+
+  const userRole = user?.role?.toLowerCase();
+
+  const dashboardHref = dashboardLink[userRole] || dashboardLink.patient;
+
+  const renderNavLinks = () => {
+    return (
+      <>
+        {/* Main Links */}
+        {navLinks.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={pathName === item.href ? "font-bold underline" : ""}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+
+        {/* Dashboard */}
+        {user && (
+          <li key="dashboard">
+            <Link
+              href={dashboardHref}
+              onClick={() => setIsMenuOpen(false)}
+              className={
+                pathName === dashboardHref ? "font-bold underline" : ""
+              }
+            >
+              DASHBOARD
+            </Link>
+          </li>
+        )}
+      </>
+    );
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-background/70 backdrop-blur-lg">
       <header className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        {/* Logo */}
+        {/*Logo*/}
         <div className="flex items-center">
           <Link href="/">
-            <Image src="/image/logos.png" width={200} height={150} alt="Logo" />
+            <Image
+              src="/image/logos.png"
+              width={200}
+              height={150}
+              alt="Logo"
+              priority
+            />
           </Link>
         </div>
-        {/* Desktop Menu */}
+
+        {/*Desktop Navigation */}
         <ul className="hidden md:flex items-center gap-8">
-          {navLink}
-          {/* Dashboard Dropdown */}
-
-          <Dropdown>
-            <Dropdown.Trigger>
-              <li>
-                <Link
-                  href="/dashboard"
-                  className={`${pathName === "/dashboard" ? "font-bold underline" : " "}`}
-                >
-                  <span className="flex items-center">
-                    {" "}
-                    DASHBOARD <IoIosArrowDown />
-                  </span>
-                </Link>
-              </li>
-            </Dropdown.Trigger>
-
-            <Dropdown.Popover>
-              <Dropdown.Menu onAction={(key) => console.log(key)}>
-                <Dropdown.Item id="patient">
-                  <li className="list-none">
-                    <Link
-                      href="/patientDashboard/patient"
-                      className={`${pathName === "/patientDashboard/patient" ? "font-bold underline" : " "}`}
-                    >
-                      Patient
-                    </Link>
-                  </li>
-                </Dropdown.Item>
-
-                <Dropdown.Item id="doctor">
-                  <li className="list-none">
-                    <Link
-                      href="/doctorDashboard/doctor"
-                      className={`${pathName === "/doctorDashboard/doctor" ? "font-bold underline" : " "}`}
-                    >
-                      Doctor
-                    </Link>
-                  </li>
-                </Dropdown.Item>
-
-                <Dropdown.Item id="admin">
-                  <li className="list-none">
-                    <Link
-                      href="/adminDashboard/admin"
-                      className={`${pathName === "/adminDashboard/admin" ? "font-bold underline" : " "}`}
-                    >
-                      Admin
-                    </Link>
-                  </li>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown.Popover>
-          </Dropdown>
+          {renderNavLinks()}
         </ul>
 
-        {/* Right Side */}
+        {/*Right Side*/}
         <div className="flex items-center gap-4">
-          {/* Desktop Buttons */}
+          {/*Desktop User Section*/}
           <div className="hidden md:flex items-center gap-4">
             {user ? (
               <>
+                {/* User Name */}
                 <span className="font-semibold text-lg capitalize">
-                  Hi, {user?.name}
+                  Hi, {user?.name || "User"}
                 </span>
+
+                {/* User Avatar Dropdown */}
                 <Dropdown>
                   <Dropdown.Trigger>
                     <Avatar className="cursor-pointer">
                       <Avatar.Image
-                        src={user?.image}
+                        src={user?.image || ""}
                         alt={user?.name || "User"}
                         referrerPolicy="no-referrer"
                       />
 
-                      <Avatar.Fallback>{user?.name?.[0]}</Avatar.Fallback>
+                      <Avatar.Fallback>
+                        {user?.name?.[0]?.toUpperCase() || "U"}
+                      </Avatar.Fallback>
                     </Avatar>
                   </Dropdown.Trigger>
 
                   <Dropdown.Popover>
-                    <Dropdown.Menu onAction={(key) => console.log(key)}>
+                    <Dropdown.Menu>
+                      {/* Profile */}
                       <Dropdown.Item
                         id="profile"
                         className="text-[#2f94ff] font-bold hover:bg-transparent focus:bg-transparent"
                       >
                         <Link
                           href="/profile"
-                          className="flex items-center font-bold text-xl gap-1"
+                          className="flex items-center gap-2 font-bold text-xl"
                         >
                           <CgProfile />
                           Profile
                         </Link>
                       </Dropdown.Item>
 
+                      {/* Logout */}
                       <Dropdown.Item
                         id="logout"
                         className="hover:bg-transparent focus:bg-transparent"
                       >
                         <Button onClick={handleLogOut} variant="danger">
-                          Logout <IoLogOutOutline />
+                          Logout
+                          <IoLogOutOutline />
                         </Button>
                       </Dropdown.Item>
                     </Dropdown.Menu>
@@ -176,24 +171,31 @@ const Navbar = () => {
               </>
             ) : (
               <>
+                {/* Login */}
                 <Link href="/auth/login" className="font-bold">
                   Login
                 </Link>
+
+                {/* Register */}
                 <Link href="/auth/register">
                   <Button>Register</Button>
                 </Link>
               </>
             )}
           </div>
+
+          {/*Theme Switch*/}
           <div className="hidden md:block">
-            <ThemeSwitch></ThemeSwitch>
+            <ThemeSwitch />
           </div>
 
-          {/* Mobile Menu Button */}
+          {/*Mobile Menu Button*/}
           <button
+            type="button"
             className="block md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle Menu"
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
               <svg
@@ -228,89 +230,69 @@ const Navbar = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/*Mobile Menu*/}
       {isMenuOpen && (
         <div className="border-t border-default-200 bg-background md:hidden">
           <ul className="flex flex-col gap-4 p-5">
-            {navLink}
-            <Dropdown>
-              <Dropdown.Trigger>
-                <li>
-                  <Link
-                    href="/dashboard"
-                    className={`${pathName === "/dashboard" ? "font-bold underline" : " "}`}
-                  >
-                    <span className="flex items-center">
-                      {" "}
-                      DASHBOARD <IoIosArrowDown />
-                    </span>
-                  </Link>
-                </li>
-              </Dropdown.Trigger>
+            {/* Navigation Links */}
+            {renderNavLinks()}
 
-              <Dropdown.Popover>
-                <Dropdown.Menu onAction={(key) => console.log(key)}>
-                  <Dropdown.Item id="patient">
-                    <li className="list-none">
-                      <Link
-                        href="/patientDashboard/patient"
-                        className={`${pathName === "/patientDashboard/patient" ? "font-bold underline" : " "}`}
-                      >
-                        Patient
-                      </Link>
-                    </li>
-                  </Dropdown.Item>
+            {/*Profile*/}
+            {user && (
+              <li key="profile-mobile">
+                <Link
+                  href="/profile"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center gap-2 font-bold text-xl"
+                >
+                  <CgProfile />
+                  Profile
+                </Link>
+              </li>
+            )}
 
-                  <Dropdown.Item id="doctor">
-                    <li className="list-none">
-                      <Link
-                        href="/doctorDashboard/doctor"
-                        className={`${pathName === "/doctorDashboard/doctor" ? "font-bold underline" : " "}`}
-                      >
-                        Doctor
-                      </Link>
-                    </li>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item id="admin">
-                    <li className="list-none">
-                      <Link
-                        href="/adminDashboard/admin"
-                        className={`${pathName === "/adminDashboard/admin" ? "font-bold underline" : " "}`}
-                      >
-                        Admin
-                      </Link>
-                    </li>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown.Popover>
-            </Dropdown>
-            <Link
-              href="/profile"
-              className="flex items-center font-bold text-xl gap-1"
-            >
-              <CgProfile />
-              Profile
-            </Link>
             <hr />
 
-            {/* <Link href="/auth/login" className="font-bold">
-                  Login
-                </Link>
-                <Link href="/auth/register">
-                  <Button>Register</Button>
-                </Link> */}
+            {/*Logged Out*/}
+            {!user && (
+              <>
+                <li key="login-mobile">
+                  <Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>
+                    Login
+                  </Link>
+                </li>
 
-            <li>
-              <Link href="/auth/login">Login</Link>
+                <li key="register-mobile">
+                  <Link
+                    href="/auth/register"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Button color="primary" className="w-full">
+                      Register
+                    </Button>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {/*Logged In Logout*/}
+            {user && (
+              <li key="logout-mobile">
+                <Button
+                  onClick={handleLogOut}
+                  color="danger"
+                  className="w-full"
+                >
+                  Logout
+                  <IoLogOutOutline />
+                </Button>
+              </li>
+            )}
+
+            {/*Theme Switch*/}
+            <li key="theme-mobile">
+              <ThemeSwitch />
             </li>
-
-            {/* <Button color="primary" className="w-full">
-              Sign Up
-            </Button> */}
-            <Link href="/auth/register">
-              <Button color="primary" className="w-full">Register</Button>
-            </Link>
           </ul>
         </div>
       )}
